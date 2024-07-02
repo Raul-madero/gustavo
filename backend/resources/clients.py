@@ -14,13 +14,13 @@ blp = Blueprint('clients', __name__, description='Clientes')
 
 @blp.route('/clientes', methods=["GET", "POST"])
 class ClientsList(MethodView):
-    @jwt_required()
+    # @jwt_required()
     @blp.response(200, ClientSchema(many=True))
     def get(self):
         clientes = ClientsModel.query.all()
         return clientes, 200
     
-    @jwt_required()
+    # @jwt_required()
     @blp.arguments(ClientSchema)
     @blp.response(201, ClientSchema)
     def post(self, client_data):
@@ -35,13 +35,13 @@ class ClientsList(MethodView):
 
 @blp.route('/clientes/<int:client_id>', methods=["GET", "PUT", "DELETE"])
 class Client(MethodView):
-    @jwt_required()
+    # @jwt_required()
     @blp.response(200, ClientSchema)
     def get(self, client_id):
         cliente = ClientsModel.query.get(client_id)
         return cliente, 200
     
-    @jwt_required()
+    # @jwt_required()
     @blp.arguments(PutClientSchema)
     @blp.response(200, PutClientSchema)
     def put(self, client_data, client_id ):
@@ -62,7 +62,7 @@ class Client(MethodView):
         except SQLAlchemyError:
             abort (400, message = "Bad request. Client data is missing.")
 
-    @jwt_required(fresh=True)
+    # @jwt_required(fresh=True)
     @blp.response(204)
     def delete(self, client_id):
         cliente = ClientsModel.query.get(client_id)

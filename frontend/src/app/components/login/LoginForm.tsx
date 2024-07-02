@@ -1,34 +1,32 @@
 'use client'
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signup } from "@/lib/features/authSlice";
 import BotonSimple from "../ui/BotonSimple";
 import BotonAcento from "../ui/BottonAcento";
+
+interface State {
+    auth: {
+        user: string,
+        error: string
+    }
+}
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+    const user = useSelector((state: State) => state.auth.user);
+    const error = useSelector((state: State) => state.auth.error);
+    const dispatch = useDispatch();
+    
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const response = await fetch('http://localhost:4000/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-            const data = await response.json();
-            if (!response.ok) {
-                setError(data.message);
-                return;
-            }
-            setError('');
-            console.log(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+        dispatch(signup({email, password}));
+        setEmail('');
+        setPassword('');
+        user && window.location.replace('/admin');
+    }
 
     return (
         <div className="max-w-sm mx-auto flex flex-col gap-10">
