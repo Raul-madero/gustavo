@@ -84,8 +84,8 @@ class Login(MethodView):
         user = UsersModel.query.filter_by(email=user_data['email']).first()
         if user and pbkdf2_sha256.verify(user_data['password'], user.password):
             access_token = create_access_token(identity=user.id, fresh=True)
-            refresh_token = create_refresh_token(identity=user.id, fresh=False)
-            return {"access_token": access_token, "refresh_token": refresh_token}, 200
+            # refresh_token = create_refresh_token(identity=user.id, fresh=False)
+            return {"access_token": access_token}, 200
         else:
             abort(401, message="Unauthorized")
 
