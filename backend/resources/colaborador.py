@@ -11,17 +11,22 @@ blp = Blueprint('colaboradores', __name__, description='Colaboradores')
 
 @blp.route('/colaboradores', methods=["GET", "POST"])
 class Colaboradores(MethodView):
-    @jwt_required()
+    # @jwt_required()
     @blp.response(200, ColaboradorSchema(many=True))
     def get(self):
         colaboradores = ColaboradoresModel.query.all()
         return colaboradores, 200
     
-    @jwt_required()
+    # @jwt_required()
     @blp.arguments(ColaboradorSchema)
     @blp.response(201, ColaboradorSchema)
     def post(self, colaborador_data):
-        colaborador = ColaboradoresModel(**colaborador_data)
+        colaborador = ColaboradoresModel(
+            nombre = colaborador_data['nombre'],
+            apellido = colaborador_data['apellido'],
+            user_id = colaborador_data['user_id'],
+            is_admin = colaborador_data['is_admin']
+        )
         try:
             db.session.add(colaborador)
             db.session.commit()
@@ -32,13 +37,13 @@ class Colaboradores(MethodView):
 
 @blp.route('/colaboradores/<int:id>', methods=["GET", "PUT", "DELETE"])
 class Colaborador(MethodView):
-    @jwt_required()
+    # @jwt_required()
     @blp.response(200, ColaboradorSchema)
     def get(self, id):
         colaborador = ColaboradoresModel.query.get(id)
         return colaborador, 200
     
-    @jwt_required()
+    # @jwt_required()
     @blp.arguments(PutColaboradorSchema)
     @blp.response(200, PutColaboradorSchema)
     def put(self, colaborador_data, id):
@@ -56,7 +61,7 @@ class Colaborador(MethodView):
         except SQLAlchemyError as e:
             abort(400, str(e))
 
-    @jwt_required(fresh=True)
+    # @jwt_required(fresh=True)
     @blp.response(204)
     def delete(self, id):
         colaborador = ColaboradoresModel.query.get(id)

@@ -24,7 +24,13 @@ class ClientsList(MethodView):
     @blp.arguments(ClientSchema)
     @blp.response(201, ClientSchema)
     def post(self, client_data):
-        client = ClientsModel(**client_data)
+        client = ClientsModel(
+            rfc = client_data['rfc'],
+            nombre = client_data['nombre'],
+            giro = client_data['giro'],
+            contacto = client_data['contacto'],
+            colaborador_id = client_data['colaborador_id']
+        )
         try:
             db.session.add(client)
             db.session.commit()

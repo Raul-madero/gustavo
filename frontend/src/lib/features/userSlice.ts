@@ -4,14 +4,12 @@ import axios from "axios";
 interface User {
     email: string,
     password: string,
-    telefono: string,
-    cliente: number,
-    colaborador: number
+    telefono: string
 }
 
-export const crearUsuario = createAsyncThunk('auth/crearUsuario', async ({email, password, telefono, cliente, colaborador}: User) => {
+export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({email, password, telefono}: User) => {
     try {
-        const res = await axios.post('http://127.0.0.0:5000/usuarios', {email, password, telefono, cliente, colaborador})
+        const res = await axios.post('http://127.0.0.1:5000/usuarios', {email, password, telefono})
         return res.data
     } catch (error) {
         console.log(error)

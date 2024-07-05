@@ -38,6 +38,7 @@ class UsersList(MethodView):
             password = pbkdf2_sha256.hash(user_data['password']),
             telefono = user_data['telefono']
         )
+        
         try:
             db.session.add(user)
             db.session.commit()

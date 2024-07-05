@@ -3,6 +3,7 @@ from flask import Flask, jsonify
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 
 from db import db
@@ -16,6 +17,7 @@ from resources.user import blp as users_blueprint
 
 def create_app():
     app = Flask(__name__)
+    cors = CORS(app)
 # os.getenv("MONGODB_URL", 
     app.config["PROPAGATE_EXTENSIONS"] = True
     app.config["API_TITLE"] = "API de contabilidad"

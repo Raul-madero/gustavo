@@ -9,7 +9,7 @@ interface Cliente {
     colaborador: number
 }
 
-export const crearCliente = createAsyncThunk('auth/crearCliente', async ({rfc, nombre, giro, contacto, colaborador}: Cliente) => {
+export const crearCliente = createAsyncThunk('cliente/crearCliente', async ({rfc, nombre, giro, contacto, colaborador}: Cliente) => {
     try {
         const res = await axios.post('http://127.0.0.0:5000/clientes', {rfc, nombre, giro, contacto, colaborador})
         return res.data

@@ -25,6 +25,7 @@ class ColaboradorSchema(Schema):
     id = fields.Int(dump_only=True)
     nombre = fields.Str(required=True)
     apellido = fields.Str(required=True)
+    is_admin = fields.Bool(required=True)
     user_id = fields.Int(required=True)
     clientes = fields.Nested(ClientSchema, many=True)
     # user = fields.Nested(UserSchema, many=False)
