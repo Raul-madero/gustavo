@@ -1,18 +1,21 @@
 'use client'
 import Titles from '@/app/components/ui/Titles'
 import { crearUsuario } from '@/lib/features/userSlice'
+import { AppDispatch } from '@/lib/store'
+import { isAsyncThunkAction } from '@reduxjs/toolkit'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 
 const CrearUsuario = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [telefono, setTelefono] = useState('')
 
   const handleSubmit = (e: any) => {
     e.preventDefault()
-    dispatch(crearUsuario({email, password, telefono}))
+    const user = dispatch(crearUsuario({email, password, telefono}))
+    console.log(user)
     setEmail('')
     setPassword('')
     setTelefono('')
@@ -34,7 +37,7 @@ const CrearUsuario = () => {
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="telefono">telefono:</label>
             <input onChange={e => setTelefono(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="tel" id="telefono" name="telefono" placeholder='Ingresa el telefono'/>
         </div>
-        <button type='submit'>Crear Usuario</button>
+        <button type='submit' className="text-white bg-gradient-to-br dark:from-slate-700 dark:to-slate-700 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:bg-slate-700 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Crear Usuario</button>
       </form>
     </div>
   )
