@@ -7,9 +7,12 @@ interface User {
     telefono: string
 }
 
+const apiUrl = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000/"
+
 export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({email, password, telefono}: User) => {
+    console.log(apiUrl)
     try {
-        const res = await axios.post('http://127.0.0.1:5000/usuarios', {email, password, telefono})
+        const res = await axios.post(`${apiUrl}usuarios`, {email, password, telefono})
         return res.data
     } catch (error) {
         console.log(error)
@@ -18,7 +21,8 @@ export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({email,
 
 export const obtenerUsuarios = createAsyncThunk('user/obtenerUsuarios', async () => {
     try {
-        const res = await axios.get('http://127.0.0.1:5000/usuarios')
+        const res = await axios.get(apiUrl + 'usuarios')
+        console.log(res.data)
         return res.data
     } catch (error) {
         console.log(error)
@@ -27,7 +31,7 @@ export const obtenerUsuarios = createAsyncThunk('user/obtenerUsuarios', async ()
 
 export const eliminarUsuario = createAsyncThunk('user/eliminarUsuario', async (id: number) => {
     try {
-        const res = await axios.delete(`http://127.0.0.1:5000/usuarios/${id}`)
+        const res = await axios.delete(`${apiUrl}usuarios/${id}`)
         return res.data
     } catch (error) {
         console.log(error)

@@ -6,12 +6,19 @@ interface User {
     password: string
 }
 
-export const signup = createAsyncThunk('auth/signup', async ({email, password}: User) => {
+export const signup = createAsyncThunk('auth/signup', async ({email, password}: User, { rejectWithValue}) => {
+    console.log(email)
     try {
-        const res = await axios.post('http.//127.0.0.0.5000/login', {email, password})
+        const res = await axios.post('http://127.0.0.0:5000/login', {email, password})
+        console.log(res.data)
         return res.data
-    } catch (error) {
+    } catch (error: any) {
         console.log(error)
+        if (error.response && error.response.data) {
+            return rejectWithValue(error.response.data)
+        }else {
+            return rejectWithValue(error.message)
+        }
     }
 })
 
@@ -36,7 +43,8 @@ export const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(signup.fulfilled, (state, action) => {
-                state.user = action.payload.email
+                console.log('Signup fullfiled', action.payload)
+                state.user = action.payload
                 state.isLoggedIn = true
                 state.loading = false
                 state.error = null
@@ -45,6 +53,7 @@ export const authSlice = createSlice({
                 state.loading = true
             })
             .addCase(signup.rejected, (state, action) => {
+                console.log('Signup rejected', action.error)
                 state.isLoggedIn = false
                 state.loading = false
                 state.error = action.error.message || "An error occurred. Please try again."

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { signup } from "@/lib/features/authSlice";
 import BotonSimple from "../ui/BotonSimple";
 import BotonAcento from "../ui/BottonAcento";
+import { AppDispatch } from "@/lib/store";
 
 interface State {
     auth: {
@@ -17,12 +18,14 @@ const LoginForm = () => {
     const [password, setPassword] = useState('');
     const user = useSelector((state: State) => state.auth.user);
     const error = useSelector((state: State) => state.auth.error);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log(email)
         dispatch(signup({email, password}));
+        console.log("Aqui")
         setEmail('');
         setPassword('');
         user && window.location.replace('/admin');
@@ -55,7 +58,7 @@ const LoginForm = () => {
                     placeholder="Tu contraseña"
                     required
                 />
-                <BotonAcento navegar="/" texto="Iniciar sesión" />
+                <button type="submit" className="text-white bg-gradient-to-br dark:from-slate-700 dark:to-slate-700 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:bg-slate-700 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Iniciar sesión</button>
                 {error && <p>{error}</p>}
             </form>
             <div className="flex gap-10 items-center justify-between">
