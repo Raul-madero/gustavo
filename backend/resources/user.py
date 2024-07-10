@@ -25,11 +25,13 @@ def send_simple_message(to, subject, body):
 
 @blp.route('/usuarios', methods=["GET", "POST"])
 class UsersList(MethodView):
+    @jwt_required()
     @blp.response(200, UserSchema(many=True))
     def get(self):
         users = UsersModel.query.all()
         return users, 200
     
+    @jwt_required()
     @blp.arguments(UserSchema)
     @blp.response(201, UserSchema)
     def post(self, user_data):
@@ -50,11 +52,13 @@ class UsersList(MethodView):
 
 @blp.route('/usuarios/<int:id>', methods=["GET", "PUT", "DELETE"])
 class Users(MethodView):
+    @jwt_required()
     @blp.response(200, UserSchema)
     def get(self, id):
         user = UsersModel.query.get_or_404(id)
         return user, 200
     
+    @jwt_required()
     @blp.arguments(PutUserSchema)
     @blp.response(200, UserSchema)
     def put(self, user_data, id):
@@ -70,6 +74,7 @@ class Users(MethodView):
             db.session.rollback()
             abort (400, message = "Bad request. User data is missing.")
     
+    @jwt_required(fresh=True)
     @blp.response(204)
     def delete(self, id):
         user = UsersModel.query.get_or_404(id)
@@ -96,13 +101,13 @@ class TokenRefresh(MethodView):
     def post(self):
         current_user = get_jwt_identity()
         new_token = create_access_token(identity=current_user, fresh=False)
-        # jti = get_jwt()['jti']
-        # BLOCKLIST.add(jti)
+        jti = get_jwt()['jti']
+        BLOCKLIST.add(jti)
         return {"access_token": new_token}, 200
 
 @blp.route('/logout', methods=["POST"])
 class Logout(MethodView):
-    @jwt_required()
+    # @jwt_required()
     @blp.response(200)
     def post(self):
         jti = get_jwt()['jti']

@@ -5,6 +5,7 @@ import { AppDispatch } from '@/lib/store'
 import { isAsyncThunkAction } from '@reduxjs/toolkit'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import Swal from 'sweetalert2'
 
 const CrearUsuario = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -12,13 +13,24 @@ const CrearUsuario = () => {
   const [password, setPassword] = useState('')
   const [telefono, setTelefono] = useState('')
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
-    const user = dispatch(crearUsuario({email, password, telefono}))
-    console.log(user)
-    setEmail('')
-    setPassword('')
-    setTelefono('')
+    const user = await dispatch(crearUsuario({email, password, telefono}))
+    if (user.payload) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      setTimeout(() => {
+        setEmail('')
+      setPassword('')
+      setTelefono('')
+      window.location.href = '/admin/usuarios'
+      }, 1600)
+    }
   }
 
   return (

@@ -6,10 +6,12 @@ interface User {
     password: string
 }
 
+const urlApi = process.env.REACT_APP_API_URL
+
 export const signup = createAsyncThunk('auth/signup', async ({email, password}: User, { rejectWithValue}) => {
     console.log(email)
     try {
-        const res = await axios.post('http://127.0.0.0:5000/login', {email, password})
+        const res = await axios.post("http://127.0.0.1:5000/login", {email, password})
         console.log(res.data)
         return res.data
     } catch (error: any) {
@@ -19,6 +21,15 @@ export const signup = createAsyncThunk('auth/signup', async ({email, password}: 
         }else {
             return rejectWithValue(error.message)
         }
+    }
+})
+
+export const signout = createAsyncThunk('auth/signout', async () => {
+    try {
+        const res = await axios.post("http://127.0.0.1:5000/logout")
+        return res.data
+    } catch (error: any) {
+        return error.message
     }
 })
 
@@ -33,12 +44,12 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        logout: (state, action) => {
-            state.user = "",
-            state.isLoggedIn = false,
-            state.loading = false,
-            state.error = ""
-        }
+        // logout: (state, action) => {
+        //     state.user = "",
+        //     state.isLoggedIn = false,
+        //     state.loading = false,
+        //     state.error = ""
+        // }
     },
     extraReducers: (builder) => {
         builder
@@ -58,9 +69,25 @@ export const authSlice = createSlice({
                 state.loading = false
                 state.error = action.error.message || "An error occurred. Please try again."
             })
+            .addCase(signout.fulfilled, (state, action) => {
+                console.log('Signout fullfiled', action.payload)
+                state.user = ""
+                state.isLoggedIn = false
+                state.loading = false
+                state.error = ""
+            })
+            .addCase(signout.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(signout.rejected, (state, action) => {
+                console.log('Signout rejected', action.error)
+                state.isLoggedIn = false
+                state.loading = false
+                state.error = action.error.message || "An error occurred. Please try again."
+            })
     }
 })
 
-export const { logout } = authSlice.actions
+// export const { logout } = authSlice.actions
 
 export default authSlice.reducer

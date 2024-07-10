@@ -24,24 +24,22 @@ const TablaUsuarios = () => {
 
   const handleEliminar = (id: number, email: string) => {
     Swal.fire({
-      title: "<strong>HTML <u>example</u></strong>",
-      icon: "info",
-      html: `
-        You can use <b>bold text</b>,
-        <a href="#" autofocus>links</a>,
-        and other HTML tags
-      `,
-      showCloseButton: true,
+      title: `¿Estás seguro de eliminar a ${email}?`,
+      text: "No podrás revertir esto!",
+      icon: "warning",
       showCancelButton: true,
-      focusConfirm: false,
-      confirmButtonText: `
-        <i class="fa fa-thumbs-up"></i> Great!
-      `,
-      confirmButtonAriaLabel: "Thumbs up, great!",
-      cancelButtonText: `
-        <i class="fa fa-thumbs-down"></i>
-      `,
-      cancelButtonAriaLabel: "Thumbs down"
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "¡Sí, eliminarlo!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        confirmEliminar(id)
+        Swal.fire({
+          title: "¡Eliminado!",
+          text: "El usuario ha sido eliminado.",
+          icon: "success"
+        });
+      }
     });
   }
 

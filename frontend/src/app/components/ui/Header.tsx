@@ -3,16 +3,28 @@ import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import logo from "@/assets/img/logo.svg"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "@/lib/store"
+import { signout } from "@/lib/features/authSlice"
 
 const Header = () => {
     const [autenticado, setAutenticado] = useState(false)
     const [show, setShow] = useState(false)
+    const dispatch = useDispatch<AppDispatch>()
+
     const handleClick = () => {
       if (screen.width < 768) {
         setShow(!show)
       }else {
         setShow(false)
       }
+    }
+
+    const handleLogOut = () => {
+      localStorage.removeItem("token")
+      dispatch(signout())
+      setAutenticado(false)
+      window.location.href = "/"
     }
 
     useEffect(() => {
@@ -49,7 +61,7 @@ const Header = () => {
                       <Link onClick={handleClick} href="/contacto" className="block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Contacto</Link>
                     </li>
                     <li>
-                      <Link onClick={handleClick} href={autenticado ? "/logout" : "/login"} className="block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">{autenticado ? "Cerrar Sesión" : "Iniciar Sesión"}</Link>
+                      <Link onClick={autenticado ? handleLogOut : handleClick} href={autenticado ? "/" : "/login"} className="block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">{autenticado ? "Cerrar Sesión" : "Iniciar Sesión"}</Link>
                     </li>
                     {autenticado && (
                       <li>

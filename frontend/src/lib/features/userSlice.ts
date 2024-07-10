@@ -10,9 +10,9 @@ interface User {
 const apiUrl = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000/"
 
 export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({email, password, telefono}: User) => {
-    console.log(apiUrl)
+    const token = localStorage.getItem('token')
     try {
-        const res = await axios.post(`${apiUrl}usuarios`, {email, password, telefono})
+        const res = await axios.post(`${apiUrl}usuarios`, {email, password, telefono}, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error) {
         console.log(error)
@@ -20,8 +20,9 @@ export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({email,
 })
 
 export const obtenerUsuarios = createAsyncThunk('user/obtenerUsuarios', async () => {
+    const token = localStorage.getItem('token')
     try {
-        const res = await axios.get(apiUrl + 'usuarios')
+        const res = await axios.get(apiUrl + 'usuarios', {headers: {Authorization: `Bearer ${token}`}})
         console.log(res.data)
         return res.data
     } catch (error) {
@@ -30,8 +31,9 @@ export const obtenerUsuarios = createAsyncThunk('user/obtenerUsuarios', async ()
 })
 
 export const eliminarUsuario = createAsyncThunk('user/eliminarUsuario', async (id: number) => {
+    const token = localStorage.getItem('token')
     try {
-        const res = await axios.delete(`${apiUrl}usuarios/${id}`)
+        const res = await axios.delete(`${apiUrl}usuarios/${id}`, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error) {
         console.log(error)
