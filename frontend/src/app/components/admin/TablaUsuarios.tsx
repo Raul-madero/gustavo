@@ -43,6 +43,10 @@ const TablaUsuarios = () => {
     });
   }
 
+  const handleEditar = (id: number) => {
+    window.location.href = `/admin/usuarios/crear?id=${id}`
+  }
+
   useEffect(() => {
     const fetchUsers = async () => {
       const users = await getUsers()
@@ -73,7 +77,7 @@ const TablaUsuarios = () => {
               <td className="px-6 py-3">{usuario.cliente[0]}</td>
               <td className="px-6 py-3">{usuario.colaborador ? `${usuario.colaborador.nombre} ${usuario.colaborador.apellido}`: ""}</td>
               <td className="px-6 py-3">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2">Editar</button>
+                <button onClick={() => handleEditar(usuario.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2">Editar</button>
                 <button onClick={() => handleEliminar(usuario.id, usuario.email)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Eliminar</button>
               </td>
             </tr>

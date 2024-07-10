@@ -2,6 +2,7 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface User {
+    id: number | null,
     email: string,
     password: string,
     telefono: string
@@ -34,6 +35,26 @@ export const eliminarUsuario = createAsyncThunk('user/eliminarUsuario', async (i
     const token = localStorage.getItem('token')
     try {
         const res = await axios.delete(`${apiUrl}usuarios/${id}`, {headers: {Authorization: `Bearer ${token}`}})
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const getUser = createAsyncThunk('user/getUser', async (id: number) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.get(`${apiUrl}usuarios/${id}`, {headers: {Authorization: `Bearer ${token}`}})
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const editUser = createAsyncThunk('user/editUser', async ({id, email, password, telefono}: User) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.put(`${apiUrl}usuarios/${id}`, {email, password, telefono}, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error) {
         console.log(error)
