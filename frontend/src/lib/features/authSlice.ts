@@ -26,7 +26,7 @@ const initialState = {
     user: "",
     isLoggedIn: false,
     loading: false,
-    error: null
+    error: ""
 }
 
 export const authSlice = createSlice({
@@ -37,7 +37,7 @@ export const authSlice = createSlice({
             state.user = "",
             state.isLoggedIn = false,
             state.loading = false,
-            state.error = null
+            state.error = ""
         }
     },
     extraReducers: (builder) => {
@@ -47,7 +47,7 @@ export const authSlice = createSlice({
                 state.user = action.payload
                 state.isLoggedIn = true
                 state.loading = false
-                state.error = null
+                state.error = ""
             })
             .addCase(signup.pending, (state, action) => {
                 state.loading = true
