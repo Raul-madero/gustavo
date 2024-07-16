@@ -25,7 +25,7 @@ def send_simple_message(to, subject, body):
 
 @blp.route('/usuarios', methods=["GET", "POST"])
 class UsersList(MethodView):
-    @jwt_required()
+    # @jwt_required()
     @blp.response(200, UserSchema(many=True))
     def get(self):
         users = UsersModel.query.all()
