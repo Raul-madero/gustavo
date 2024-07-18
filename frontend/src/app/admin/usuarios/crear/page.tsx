@@ -21,6 +21,7 @@ const CrearUsuario = () => {
     if(params) {
       const id = params.split('=')[1]
       const user = await dispatch(editUser({id: parseInt(id), email, password, telefono}))
+      
       if (user.payload) {
         Swal.fire({
           position: "top-end",
@@ -38,7 +39,8 @@ const CrearUsuario = () => {
       }
     } else {
       const user = await dispatch(crearUsuario({id: null, email, password, telefono}))
-      if (user.payload) {
+      console.log(user)
+      if (user.payload.code === 201) {
         Swal.fire({
           position: "top-end",
           icon: "success",
@@ -52,6 +54,14 @@ const CrearUsuario = () => {
         setTelefono('')
         window.location.href = '/admin/usuarios'
         }, 1600)
+      }else if (user.payload.code === 400) {
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: user.payload.message,
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     }
   }

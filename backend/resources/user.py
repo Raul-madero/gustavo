@@ -25,13 +25,13 @@ def send_simple_message(to, subject, body):
 
 @blp.route('/usuarios', methods=["GET", "POST"])
 class UsersList(MethodView):
-    @jwt_required()
+    # @jwt_required()
     @blp.response(200, UserSchema(many=True))
     def get(self):
         users = UsersModel.query.all()
         return users, 200
     
-    @jwt_required()
+    # @jwt_required()
     @blp.arguments(UserSchema)
     @blp.response(201, UserSchema)
     def post(self, user_data):
@@ -40,7 +40,8 @@ class UsersList(MethodView):
             password = pbkdf2_sha256.hash(user_data['password']),
             telefono = user_data['telefono']
         )
-        
+        if UsersModel.query.filter_by(email=user.email).first():
+            abort(400, message="Email ya registrado.")
         try:
             db.session.add(user)
             db.session.commit()
@@ -48,17 +49,17 @@ class UsersList(MethodView):
             return user, 201
         except SQLAlchemyError:
             db.session.rollback()
-            abort (400, message = "Bad request. User data is missing.") 
+            abort (400, message = "Campos faltantes.") 
 
 @blp.route('/usuarios/<int:id>', methods=["GET", "PUT", "DELETE"])
 class Users(MethodView):
-    @jwt_required()
+    # @jwt_required()
     @blp.response(200, UserSchema)
     def get(self, id):
         user = UsersModel.query.get_or_404(id)
         return user, 200
     
-    @jwt_required()
+    # @jwt_required()
     @blp.arguments(PutUserSchema)
     @blp.response(200, UserSchema)
     def put(self, user_data, id):
@@ -72,9 +73,9 @@ class Users(MethodView):
             return user, 200
         except SQLAlchemyError:
             db.session.rollback()
-            abort (400, message = "Bad request. User data is missing.")
+            abort (400, message = "Campos faltantes.")
     
-    @jwt_required(fresh=True)
+    # @jwt_required(fresh=True)
     @blp.response(204)
     def delete(self, id):
         user = UsersModel.query.get_or_404(id)

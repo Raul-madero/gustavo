@@ -15,8 +15,8 @@ export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({email,
     try {
         const res = await axios.post(`${apiUrl}usuarios`, {email, password, telefono}, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
-    } catch (error) {
-        console.log(error)
+    } catch (error: any) {
+        return error.response.data
     }
 })
 
@@ -24,7 +24,6 @@ export const obtenerUsuarios = createAsyncThunk('user/obtenerUsuarios', async ()
     const token = localStorage.getItem('token')
     try {
         const res = await axios.get(apiUrl + 'usuarios', {headers: {Authorization: `Bearer ${token}`}})
-        console.log(res.data)
         return res.data
     } catch (error) {
         console.log(error)
