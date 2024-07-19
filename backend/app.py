@@ -27,7 +27,7 @@ def create_app():
     app.config["OPENAPI_URL_PREFIX"] = "/"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/docs"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "/docs/swagger-ui"
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("RENDER_DB_URL") or "sqlite:///gustavo_ramirez.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///gustavo_ramirez.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 

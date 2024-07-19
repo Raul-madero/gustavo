@@ -4,7 +4,7 @@ class ClientsModel(db.Model):
     __tablename__ = 'clients'
 
     id = db.Column(db.Integer, primary_key=True)
-    rfc = db.Column(db.String(13), nullable=False)
+    rfc = db.Column(db.String(13), nullable=False, unique=True)
     nombre = db.Column(db.String(100), nullable=False)
     giro = db.Column(db.String(100), nullable=False)
     contacto = db.Column(db.String(100), nullable=False)

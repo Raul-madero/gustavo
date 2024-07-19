@@ -14,13 +14,13 @@ blp = Blueprint('clients', __name__, description='Clientes')
 
 @blp.route('/clientes', methods=["GET", "POST"])
 class ClientsList(MethodView):
-    @jwt_required()
+    # @jwt_required()
     @blp.response(200, ClientSchema(many=True))
     def get(self):
         clientes = ClientsModel.query.all()
         return clientes, 200
     
-    @jwt_required()
+    # @jwt_required()
     @blp.arguments(ClientSchema)
     @blp.response(201, ClientSchema)
     def post(self, client_data):
@@ -31,23 +31,25 @@ class ClientsList(MethodView):
             contacto = client_data['contacto'],
             colaborador_id = client_data['colaborador_id']
         )
+        if ClientsModel.query.filter_by(rfc=client.rfc).first():
+            abort(400, message = "El RFC ya existe.")
         try:
             db.session.add(client)
             db.session.commit()
             return client, 201
         except SQLAlchemyError:
             db.session.rollback()
-            abort (400, message = "Bad request. Client data is missing.")
+            abort (400, message = "Faltan campos.")
 
 @blp.route('/clientes/<int:client_id>', methods=["GET", "PUT", "DELETE"])
 class Client(MethodView):
-    @jwt_required()
+    # @jwt_required()
     @blp.response(200, ClientSchema)
     def get(self, client_id):
         cliente = ClientsModel.query.get(client_id)
         return cliente, 200
     
-    @jwt_required()
+    # @jwt_required()
     @blp.arguments(PutClientSchema)
     @blp.response(200, PutClientSchema)
     def put(self, client_data, client_id ):
@@ -66,9 +68,9 @@ class Client(MethodView):
             db.session.commit()
             return cliente, 200
         except SQLAlchemyError:
-            abort (400, message = "Bad request. Client data is missing.")
+            abort (400, message = "Faltan Campos.")
 
-    @jwt_required(fresh=True)
+    # @jwt_required(fresh=True)
     @blp.response(204)
     def delete(self, client_id):
         cliente = ClientsModel.query.get(client_id)

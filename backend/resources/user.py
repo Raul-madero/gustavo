@@ -94,7 +94,7 @@ class Login(MethodView):
             # refresh_token = create_refresh_token(identity=user.id, fresh=False)
             return {"access_token": access_token}, 200
         else:
-            abort(401, message="Unauthorized")
+            abort(401, message="Credenciales incorrectas")
 
 @blp.route('/refresh', methods=["POST"])
 class TokenRefresh(MethodView):

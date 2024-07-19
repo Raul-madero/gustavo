@@ -3,12 +3,11 @@ from marshmallow import Schema, fields
 
 class ClientSchema(Schema):
     id = fields.Int(dump_only=True)
-    rfc = fields.Str(required=True)
+    rfc = fields.Str(required=True, unique=True)
     nombre = fields.Str(required=True)
     giro = fields.Str(required=True)
     contacto = fields.Str(required=True)
     colaborador_id = fields.Int(required=True)
-    user_id = fields.Int(required=True)
     # colaborador = fields.Nested(ColaboradorSchema, many=False)
     # user = fields.Nested(UserSchema, many=False)
 
@@ -47,6 +46,7 @@ class UserSchema(Schema):
     password = fields.Str(required=True, load_only=True)
     telefono = fields.Str(required=True)
     colaboradores_id = fields.Int()
+    clientes_id = fields.Int()
     cliente = fields.Nested(ClientSchema, many=True)
     colaborador = fields.Nested(ColaboradorSchema, many=False)
 

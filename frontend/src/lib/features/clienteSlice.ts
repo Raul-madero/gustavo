@@ -6,12 +6,22 @@ interface Cliente {
     nombre: string,
     giro: string,
     contacto: string,
-    colaborador: number
+    colaborador_id: number
 }
 
-export const crearCliente = createAsyncThunk('cliente/crearCliente', async ({rfc, nombre, giro, contacto, colaborador}: Cliente) => {
+export const getClientes = createAsyncThunk('cliente/getClientes', async () => {
     try {
-        const res = await axios.post('http://127.0.0.0:5000/clientes', {rfc, nombre, giro, contacto, colaborador})
+        const res = await axios.get('http://127.0.0.1:5000/clientes')
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const crearCliente = createAsyncThunk('cliente/crearCliente', async ({rfc, nombre, giro, contacto, colaborador_id}: Cliente) => {
+    const token = localStorage.getItem('token')
+    try {
+        const res = await axios.post('http://127.0.0.1:5000/clientes', {rfc, nombre, giro, contacto, colaborador_id}, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error) {
         console.log(error)
@@ -27,7 +37,7 @@ const initialState = {
         colaborador: 0
     },
     loading: false,
-    error: null
+    error: "" 
 }
 
 export const clienteSlice = createSlice({
@@ -36,10 +46,23 @@ export const clienteSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(getClientes.fulfilled, (state, action) => {
+                state.cliente = action.payload
+                state.loading = false
+                state.error = ""
+            })
+            .addCase(getClientes.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(getClientes.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message || "An error occurred. Please try again."
+            })
+
             .addCase(crearCliente.fulfilled, (state, action) => {
                 state.cliente = action.payload
                 state.loading = false
-                state.error = null
+                state.error = "null"
             })
             .addCase(crearCliente.pending, (state, action) => {
                 state.loading = true

@@ -9,18 +9,11 @@ interface User {
 const urlApi = process.env.REACT_APP_API_URL
 
 export const signup = createAsyncThunk('auth/signup', async ({email, password}: User, { rejectWithValue}) => {
-    console.log(email)
     try {
         const res = await axios.post("http://127.0.0.1:5000/login", {email, password})
-        console.log(res.data)
         return res.data
     } catch (error: any) {
-        console.log(error)
-        if (error.response && error.response.data) {
-            return rejectWithValue(error.response.data)
-        }else {
-            return rejectWithValue(error.message)
-        }
+        return rejectWithValue(error.response.data)
     }
 })
 
