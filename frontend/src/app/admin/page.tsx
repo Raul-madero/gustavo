@@ -8,7 +8,7 @@ const Admin = () => {
   const [user, setUser] = useState("")
 
   useEffect(() => {
-    const user = localStorage.getItem('user') || ""
+    const user = sessionStorage.getItem('user') || ""
     setUser(user)
   }, [])
 

@@ -26,8 +26,8 @@ const LoginForm = () => {
         const login = await dispatch(signup({email, password}));
         if(login.payload.access_token) {
             const token = login.payload.access_token
-            localStorage.setItem('token', token)
-            localStorage.setItem('user', email)
+            sessionStorage.setItem('token', token)
+            sessionStorage.setItem('user', email)
             window.location.href = '/admin'
         }else {
             let error = login.payload
