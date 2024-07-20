@@ -2,16 +2,16 @@
 import React, { useEffect, useState } from 'react'
 import TablaClientes from '../components/admin/TablaClientes'
 import Titles from '../components/ui/Titles'
+import useIsLoggedIn from '@/hooks/useIsLoggedIn'
 
 
 const Admin = () => {
-  const [user, setUser] = useState("")
-
-  useEffect(() => {
-    const user = sessionStorage.getItem('user') || ""
-    setUser(user)
-  }, [])
-
+  const {user, isLoggedIn} = useIsLoggedIn()
+  
+  if (!isLoggedIn) {
+    window.location.href = '/login'
+  }
+  
   const adminUsers = () => {
     window.location.href = '/admin/usuarios'
   }

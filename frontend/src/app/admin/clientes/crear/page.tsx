@@ -8,6 +8,7 @@ import axios from 'axios'
 import Titles from '@/app/components/ui/Titles'
 import { AppDispatch } from '@/lib/store'
 import Swal from 'sweetalert2'
+import useIsLoggedIn from '@/hooks/useIsLoggedIn'
 
 // interface State {
 //     cliente: {cliente: {
@@ -30,6 +31,12 @@ interface Cliente {
 }
 
 const CrearCliente = () => {
+    const {user, isLoggedIn} = useIsLoggedIn()
+
+    if (!isLoggedIn) {
+      window.location.href = '/login'
+    }
+    
     const cliente = useSelector((state: any) => state.cliente.cliente)
     const loading = useSelector((state: any) => state.loading)
     const error = useSelector((state: any) => state.error)
