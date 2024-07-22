@@ -16,6 +16,15 @@ export const fetchColaboradores = createAsyncThunk('colaborador/fetchColaborador
     }
 })
 
+export const getColaboradorByName = createAsyncThunk('colaborador/getColaboradorByName', async (nombre: string) => {
+    try {
+        const res = await axios.get(`http://127.0.0.1:5000/colaboradores/${nombre}`)
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 export const crearColaborador = createAsyncThunk('colaborador/crearColaborador', async ({nombre, apellido, is_admin}: Colaborador) => {
     try {
         const res = await axios.post('http://127.0.0.1:5000/colaboradores', {nombre, apellido, is_admin})
@@ -32,7 +41,7 @@ const initialState = {
         is_admin: false
     },
     loading: false,
-    error: null
+    error: ""
 }
 
 export const colaboradorSlice = createSlice({
@@ -44,7 +53,7 @@ export const colaboradorSlice = createSlice({
             .addCase(crearColaborador.fulfilled, (state, action) => {
                 state.colaborador = action.payload
                 state.loading = false
-                state.error = null
+                state.error = ""
             })
             .addCase(crearColaborador.pending, (state, action) => {
                 state.loading = true
@@ -56,7 +65,7 @@ export const colaboradorSlice = createSlice({
             .addCase(fetchColaboradores.fulfilled, (state, action) => {
                 state.colaborador = action.payload
                 state.loading = false
-                state.error = null
+                state.error = ""
             })
             .addCase(fetchColaboradores.pending, (state, action) => {
                 state.loading = true

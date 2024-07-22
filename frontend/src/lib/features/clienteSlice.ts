@@ -18,6 +18,15 @@ export const getClientes = createAsyncThunk('cliente/getClientes', async () => {
     }
 })
 
+export const getClienteByName = createAsyncThunk('cliente/getClienteByName', async (nombre: string) => {
+    try {
+        const res = await axios.get(`http://127.0.0.1:5000/clientes/${nombre}`)
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 export const crearCliente = createAsyncThunk('cliente/crearCliente', async ({rfc, nombre, giro, contacto, colaborador_id}: Cliente) => {
     const token = sessionStorage.getItem('token')
     try {
