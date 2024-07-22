@@ -68,3 +68,11 @@ class Colaborador(MethodView):
         db.session.delete(colaborador)
         db.session.commit()
         return 'Eliminado', 204
+    
+@blp.route('/colaboradores/<string:nombre>', methods=["GET"])
+def get_colaborador_by_name(nombre):
+    colaborador = ColaboradoresModel.query.filter_by(nombre=nombre).first()
+    if colaborador:
+        return colaborador, 200
+    else:
+        abort(404, message="Colaborador no encontrado.")

@@ -77,3 +77,11 @@ class Client(MethodView):
         db.session.delete(cliente)
         db.session.commit()
         return 'Eliminado', 204
+
+@blp.route('/clientes/<string:nombre>', methods=["GET"])
+class ClientByName(MethodView):
+    # @jwt_required()
+    @blp.response(200, ClientSchema)
+    def get(self, nombre):
+        cliente = ClientsModel.query.filter_by(nombre=nombre).first()
+        return cliente, 200

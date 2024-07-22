@@ -5,12 +5,13 @@ interface User {
     id: number | null,
     email: string,
     password: string,
-    telefono: string
+    telefono: string,
+    cliente_id: number
 }
 
 const apiUrl = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000/"
 
-export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({email, password, telefono}: User) => {
+export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({email, password, telefono, cliente_id}: User) => {
     const token = sessionStorage.getItem('token')
     try {
         const res = await axios.post(`${apiUrl}usuarios`, {email, password, telefono}, {headers: {Authorization: `Bearer ${token}`}})

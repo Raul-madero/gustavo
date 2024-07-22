@@ -1,10 +1,11 @@
 'use client'
 import Titles from '@/app/components/ui/Titles'
 import useIsLoggedIn from '@/hooks/useIsLoggedIn'
+import { getClienteByName } from '@/lib/features/clienteSlice'
+import { getColaboradorByName } from '@/lib/features/colaboradorSlice'
 import { crearUsuario, editUser, getUser } from '@/lib/features/userSlice'
 import { AppDispatch } from '@/lib/store'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
@@ -14,15 +15,30 @@ const CrearUsuario = () => {
 
   const dispatch = useDispatch<AppDispatch>()
   const [params, setParams] = useState(0)
+  const [nombre, setNombre] = useState('')
+  const [clienteId, setClienteId] = useState(0)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [telefono, setTelefono] = useState('')
+
+  const getClienteId = async () => {
+    const cliente = await dispatch(getClienteByName(nombre))
+    if (cliente.payload) {
+      setClienteId(cliente.payload.id)
+    }else {
+      const colaborador = await dispatch(getColaboradorByName(nombre))
+      if (colaborador.payload) {
+        setClienteId(colaborador.payload.id)
+      }
+    }
+  }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     if(params !== 0) {
       const id = params
-      const user = await dispatch(editUser({ id, email, password, telefono }))
+      const cliente = await getClienteId()
+      const user = await dispatch(editUser({ id, email, password, telefono, cliente_id: clienteId }))
       
       if (user.payload) {
         Swal.fire({
@@ -33,6 +49,7 @@ const CrearUsuario = () => {
           timer: 1500
         });
         setTimeout(() => {
+          setNombre('')
           setEmail('')
         setPassword('')
         setTelefono('')
@@ -40,7 +57,7 @@ const CrearUsuario = () => {
         }, 1600)
       }
     } else {
-      const user = await dispatch(crearUsuario({ id: null, email, password, telefono}))
+      const user = await dispatch(crearUsuario({ id: null, email, password, telefono, cliente_id: clienteId}))
       if (user.payload.code === 201) {
         Swal.fire({
           position: "top-end",
@@ -89,6 +106,10 @@ const CrearUsuario = () => {
     <div className='w-3/4 mx-auto h-screen'>
       <Titles title={params !== 0 ? "Editar Usuario" : "Crear Usuario"} />
       <form onSubmit={e => handleSubmit(e)}>
+      <div className="my-4">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="nombre">Nombre o Razón Social:</label>
+            <input value={nombre} onChange={e => setNombre(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" id="nombre" name="nombre" placeholder='Ingresa tu nombre o Razón Social' required/>
+        </div>
         <div className="my-4">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="email">Email:</label>
             <input value={email} onChange={e => setEmail(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="email" id="email" name="email" placeholder='Ingresa el Email' required/>
