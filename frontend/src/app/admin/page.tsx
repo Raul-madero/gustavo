@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import TablaClientes from '../components/admin/TablaClientes'
 import Titles from '../components/ui/Titles'
 import useIsLoggedIn from '@/hooks/useIsLoggedIn'
@@ -7,10 +7,6 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn'
 
 const Admin = () => {
   const {user, isLoggedIn} = useIsLoggedIn()
-  
-  if (!isLoggedIn) {
-    window.location.href = '/login'
-  }
   
   const adminUsers = () => {
     window.location.href = '/admin/usuarios'
@@ -26,6 +22,7 @@ const Admin = () => {
     <div>
         {user === "r.madero.ramirez@gmail.com" ? 
         <div className='mt-10 h-screen'>
+          <h1>{user}</h1>
           <Titles title='Admin' />
           <div className='w-10/12 mx-auto flex justify-between my-10'>
             <button className='bg-emerald-400 w-48 h-16 rounded-xl shadow-xl' onClick={adminUsers}>Usuarios</button>

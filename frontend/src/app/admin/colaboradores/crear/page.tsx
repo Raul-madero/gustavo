@@ -10,9 +10,6 @@ import { useDispatch, useSelector } from 'react-redux'
 const crearcolaborador = () => {
     const {user, isLoggedIn} = useIsLoggedIn()
 
-    if (!isLoggedIn) {
-        window.location.href = '/login'
-    }
     const dispatch = useDispatch<AppDispatch>()
     const colaborador = useSelector((state: any) => state.colaborador)
     const [nombre, setNombre] = useState('')

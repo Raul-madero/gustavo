@@ -4,10 +4,14 @@ const useIsLoggedIn = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState("");
     useEffect(() => {
-        const user = sessionStorage.getItem('user');
-        if (user) {
+        const usuario = sessionStorage.getItem('user');
+        if (usuario) {
             setIsLoggedIn(true);
-            setUser(user);
+            setUser(usuario);
+        }else {
+            setIsLoggedIn(false);
+            setUser("");
+            window.location.href = '/login';
         }
     }, []);
     return { isLoggedIn, user };

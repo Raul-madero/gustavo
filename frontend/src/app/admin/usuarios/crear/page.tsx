@@ -12,10 +12,6 @@ import Swal from 'sweetalert2'
 const CrearUsuario = () => {
   const { user, isLoggedIn } = useIsLoggedIn()
 
-  if (!isLoggedIn) {
-    window.location.href = '/login'
-  }
-
   const dispatch = useDispatch<AppDispatch>()
   const [params, setParams] = useState(0)
   const [email, setEmail] = useState('')

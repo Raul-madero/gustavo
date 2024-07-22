@@ -5,10 +5,6 @@ import useIsLoggedIn from "@/hooks/useIsLoggedIn"
 const Clientes = () => {  
     const {user, isLoggedIn} = useIsLoggedIn()
 
-    if (!isLoggedIn) {
-      window.location.href = '/login'
-    }
-
   return (
     <div>
       <TablaClientes />

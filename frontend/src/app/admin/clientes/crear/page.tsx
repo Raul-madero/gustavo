@@ -32,10 +32,6 @@ interface Cliente {
 
 const CrearCliente = () => {
     const {user, isLoggedIn} = useIsLoggedIn()
-
-    if (!isLoggedIn) {
-      window.location.href = '/login'
-    }
     
     const cliente = useSelector((state: any) => state.cliente.cliente)
     const loading = useSelector((state: any) => state.loading)

@@ -6,10 +6,6 @@ import React, { useEffect, useState } from 'react'
 const Usuarios = () => {
     const {user, isLoggedIn} = useIsLoggedIn()
 
-    if (!isLoggedIn) {
-        window.location.href = '/login'
-    }
-
     return (
         <div>
             <h1>{user}</h1>

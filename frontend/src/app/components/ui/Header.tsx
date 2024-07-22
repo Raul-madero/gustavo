@@ -21,18 +21,19 @@ const Header = () => {
     }
 
     const handleLogOut = () => {
-      localStorage.removeItem("token")
+      sessionStorage.removeItem("token")
       dispatch(signout())
       setAutenticado(false)
       window.location.href = "/"
     }
 
     useEffect(() => {
-      if (localStorage.getItem("token")) {
+      if (sessionStorage.getItem("token")) {
         setAutenticado(true)
       }
       setShow(false)
     }, [])
+    
     return (
         <header className="flex items-center justify-between h-20 p-5 bg-gradient-to-r from-blue-800 via-sky-600 to-teal-400 dark:bg-gradient-to-r dark:from-slate-800 dark:via-slate-800 dark:to-gray-900 sticky top-0 z-50">
             <Link onClick={handleClick} href={"/"} >
