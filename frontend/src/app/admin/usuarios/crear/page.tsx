@@ -1,5 +1,6 @@
 'use client'
 import Titles from '@/app/components/ui/Titles'
+import useIsLoggedIn from '@/hooks/useIsLoggedIn'
 import { crearUsuario, editUser, getUser } from '@/lib/features/userSlice'
 import { AppDispatch } from '@/lib/store'
 import Link from 'next/link'
@@ -9,18 +10,19 @@ import { useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
 
 const CrearUsuario = () => {
+  const { user, isLoggedIn } = useIsLoggedIn()
+
   const dispatch = useDispatch<AppDispatch>()
   const [params, setParams] = useState(0)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [telefono, setTelefono] = useState('')
 
-  console.log(params)
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     if(params !== 0) {
       const id = params
-      const user = await dispatch(editUser({id: parseInt(id), email, password, telefono}))
+      const user = await dispatch(editUser({ id, email, password, telefono }))
       
       if (user.payload) {
         Swal.fire({
@@ -68,7 +70,7 @@ const CrearUsuario = () => {
   const encontrarUsuario = async () => {
       if (params !== 0) {
         const id = params
-        const usuario = await dispatch(getUser(parseInt(id)))
+        const usuario = await dispatch(getUser(id))
         setEmail(usuario.payload.email)
         setTelefono(usuario.payload.telefono)
       }

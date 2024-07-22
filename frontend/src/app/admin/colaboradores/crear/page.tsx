@@ -1,12 +1,16 @@
 'use client'
 import BotonAcento from '@/app/components/ui/BottonAcento'
 import Titles from '@/app/components/ui/Titles'
+import useIsLoggedIn from '@/hooks/useIsLoggedIn'
 import { crearColaborador } from '@/lib/features/colaboradorSlice'
+import { AppDispatch } from '@/lib/store'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 const crearcolaborador = () => {
-    const dispatch = useDispatch()
+    const {user, isLoggedIn} = useIsLoggedIn()
+
+    const dispatch = useDispatch<AppDispatch>()
     const colaborador = useSelector((state: any) => state.colaborador)
     const [nombre, setNombre] = useState('')
     const [apellido, setApellido] = useState('')

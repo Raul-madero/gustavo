@@ -50,6 +50,17 @@ export const getUser = createAsyncThunk('user/getUser', async (id: number) => {
     }
 })
 
+export const getUserByEmail = createAsyncThunk('user/getUserByEmail', async (email: string) => {
+    const token = localStorage.getItem('token')
+    console.log(email)
+    try {
+        const res = await axios.get(`${apiUrl}usuarios/${email}`, {headers: {Authorization: `Bearer ${token}`}})
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 export const editUser = createAsyncThunk('user/editUser', async ({id, email, password, telefono}: User) => {
     const token = localStorage.getItem('token')
     try {
