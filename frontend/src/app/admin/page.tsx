@@ -1,12 +1,25 @@
 'use client'
-import React, { useEffect } from 'react'
+import React, { use, useEffect } from 'react'
 import TablaClientes from '../components/admin/TablaClientes'
 import Titles from '../components/ui/Titles'
 import useIsLoggedIn from '@/hooks/useIsLoggedIn'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '@/lib/store'
+import { getUserByEmail } from '@/lib/features/userSlice'
 
 
 const Admin = () => {
   const {user, isLoggedIn} = useIsLoggedIn()
+  const dispatch = useDispatch<AppDispatch>()
+
+  const findUser = async () => {
+    const res = await dispatch(getUserByEmail(user))
+    console.log(res)
+  }
+
+  if (isLoggedIn) {
+    findUser()
+  }
   
   const adminUsers = () => {
     window.location.href = '/admin/usuarios'

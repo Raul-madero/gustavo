@@ -83,6 +83,14 @@ class Users(MethodView):
         db.session.commit()
         return 'Eliminado', 204
     
+@blp.route('/usuarios/<string:email>', methods=["GET"])
+class UsersEmail(MethodView):
+    # @jwt_required()
+    @blp.response(200, UserSchema)
+    def get(self, email):
+        user = UsersModel.query.filter_by(email=email).first()
+        return user, 200
+    
 @blp.route('/login', methods=["POST"])
 class Login(MethodView):
     @blp.arguments(LoginSchema)
