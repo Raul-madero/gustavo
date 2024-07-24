@@ -32,7 +32,7 @@ const initialState = {
         is_admin: false
     },
     loading: false,
-    error: null
+    error: ""
 }
 
 export const colaboradorSlice = createSlice({
@@ -44,7 +44,7 @@ export const colaboradorSlice = createSlice({
             .addCase(crearColaborador.fulfilled, (state, action) => {
                 state.colaborador = action.payload
                 state.loading = false
-                state.error = null
+                state.error = ""
             })
             .addCase(crearColaborador.pending, (state, action) => {
                 state.loading = true
@@ -56,7 +56,7 @@ export const colaboradorSlice = createSlice({
             .addCase(fetchColaboradores.fulfilled, (state, action) => {
                 state.colaborador = action.payload
                 state.loading = false
-                state.error = null
+                state.error = ""
             })
             .addCase(fetchColaboradores.pending, (state, action) => {
                 state.loading = true

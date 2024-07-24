@@ -38,6 +38,7 @@ const CrearCliente = () => {
     const error = useSelector((state: any) => state.error)
     const dispatch = useDispatch<AppDispatch>()
     const params = window.location.search
+    const navigate = UseNavi
 
     const [rfc, setRfc] = useState('')
     const [nombre, setNombre] = useState('')
@@ -66,6 +67,7 @@ const CrearCliente = () => {
         const fetchColaboradoresFromServer = async () => {
             const colaboradoresFromServer = await getColaboradores()
             setColaboradores(colaboradoresFromServer)
+            return colaboradoresFromServer
         }
         fetchColaboradoresFromServer()
     }, [])
@@ -80,7 +82,7 @@ const CrearCliente = () => {
           timer: 1500
         })
         setTimeout(() => {
-          window.location.href = '/admin/clientes'
+          
         }, 1600)
           
     }
