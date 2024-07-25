@@ -1,7 +1,47 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['i.ibb.co', 'res.cloudinary.com', 'images.unsplash.com', 'cdn.pixabay.com', 'www.pexels.com', 'images.pexels.com', 'images.unsplash.com', 'source.unsplash.com', 'images.ctfassets.net', 'images.unsplash.com', 'images.pexels.com', 'images.ctfassets.net'],
+        remotePatterns: [{
+            protocol: 'https',
+            hostname: 'i.ibb.co',
+            port: '',
+        }, 
+        {
+            protocol: 'https',
+            hostname: 'res.cloudinary.com',
+            port: '',
+        },  
+        {
+            protocol: 'https',
+            hostname: 'cdn.pixabay.com',
+            port: '',
+        }, 
+        {
+            protocol: 'https',
+            hostname: 'www.pexels.com',
+            port: '',
+        }, 
+        {
+            protocol: 'https',
+            hostname: 'images.pexels.com',
+            port: '',
+        }, 
+        {
+            protocol: 'https',
+            hostname: 'images.unsplash.com',
+            port: '',
+        }, 
+        {
+            protocol: 'https',
+            hostname: 'source.unsplash.com',
+            port: '',
+        }, 
+        {
+            protocol: 'https',
+            hostname: 'images.ctfassets.net',
+            port: '',
+        }]
+        ,
     },
 };
 
