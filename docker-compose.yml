@@ -24,8 +24,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./next-app/src:/src/app
-      - ./next-app/public:/public
+      - ./frontend/src:/src/app
+      - ./frontend/public:/public
     restart: always
     ports:
       - 3000:3000

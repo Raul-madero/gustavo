@@ -15,7 +15,8 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # Keeps Python from buffering stdout and stderr to avoid situations where
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
-
+ENV JWT_SECRET_KEY=62326431520918773712415152471275453433
+ENV RENDER_DB_URL=postgresql://gustavo_user:NEhcOhRM1gwwEpSe0bFVDaDipjtqwS0d@dpg-cq80r488fa8c738b531g-a.oregon-postgres.render.com/gustavo
 WORKDIR /app
 
 # Create a non-privileged user that the app will run under.
