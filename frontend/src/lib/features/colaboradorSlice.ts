@@ -16,6 +16,15 @@ export const fetchColaboradores = createAsyncThunk('colaborador/fetchColaborador
     }
 })
 
+export const getColaboradorByName = createAsyncThunk('colaborador/getColaboradorByName', async (nombre: string) => {
+    try {
+        const res = await axios.get(`http://127.0.0.1:5000/colaboradores/${nombre}`)
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 export const crearColaborador = createAsyncThunk('colaborador/crearColaborador', async ({nombre, apellido, is_admin}: Colaborador) => {
     try {
         const res = await axios.post('http://127.0.0.1:5000/colaboradores', {nombre, apellido, is_admin})
