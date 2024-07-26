@@ -6,6 +6,7 @@ import useIsLoggedIn from '@/hooks/useIsLoggedIn'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/lib/store'
 import { getUserByEmail } from '@/lib/features/userSlice'
+import Link from 'next/link'
 
 
 const Admin = () => {
@@ -14,21 +15,11 @@ const Admin = () => {
 
   const findUser = async () => {
     const res = await dispatch(getUserByEmail(user))
-    console.log(res)
+    return res
   }
 
   if (isLoggedIn) {
     findUser()
-  }
-  
-  const adminUsers = () => {
-    window.location.href = '/admin/usuarios'
-  }
-  const adminClientes = () => {
-    window.location.href = '/admin/clientes'
-  }
-  const adminColaboradores = () => {
-    window.location.href = '/admin/colaboradores'
   }
 
   return (
@@ -38,9 +29,9 @@ const Admin = () => {
           <h1>{user}</h1>
           <Titles title='Admin' />
           <div className='w-10/12 mx-auto flex justify-between my-10'>
-            <button className='bg-emerald-400 w-48 h-16 rounded-xl shadow-xl' onClick={adminUsers}>Usuarios</button>
-            <button className='bg-emerald-400 w-48 h-16 rounded-xl shadow-xl' onClick={adminClientes}>Clientes</button>
-            <button className='bg-emerald-400 w-48 h-16 rounded-xl shadow-xl' onClick={adminColaboradores}>Colaboradores</button>
+            <Link href="/admin/usuarios" className='bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Usuarios</Link>
+            <Link href="/admin/clientes" className='bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Clientes</Link>
+            <Link href="/admin/colaboradores" className='bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Colaboradores</Link>
           </div>
         </div>
           : <TablaClientes />

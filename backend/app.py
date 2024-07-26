@@ -27,7 +27,7 @@ def create_app():
     app.config["OPENAPI_URL_PREFIX"] = "/"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/docs"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "/docs/swagger-ui"
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///gustavo_ramirez.db"
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("RENDER_DB_URL")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 
@@ -37,7 +37,7 @@ def create_app():
 
     # secrets.SystemRandom().getrandbits(128)
 
-    app.config["JWT_SECRET_KEY"] = "62326431520918773712415152471275453433"
+    app.config["JWT_SECRET_KEY"] = os.getenv('JWT_SECRET_KEY')
     jwt = JWTManager(app)
 
     @jwt.token_in_blocklist_loader

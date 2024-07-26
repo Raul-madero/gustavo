@@ -9,6 +9,7 @@ import Titles from '@/app/components/ui/Titles'
 import { AppDispatch } from '@/lib/store'
 import Swal from 'sweetalert2'
 import useIsLoggedIn from '@/hooks/useIsLoggedIn'
+import { redirect, useParams } from 'next/navigation'
 
 // interface State {
 //     cliente: {cliente: {
@@ -37,7 +38,8 @@ const CrearCliente = () => {
     const loading = useSelector((state: any) => state.loading)
     const error = useSelector((state: any) => state.error)
     const dispatch = useDispatch<AppDispatch>()
-    const params = window.location.search
+    const params = useParams<{id: string}>()
+    console.log(params)
 
     const [rfc, setRfc] = useState('')
     const [nombre, setNombre] = useState('')
@@ -66,6 +68,7 @@ const CrearCliente = () => {
         const fetchColaboradoresFromServer = async () => {
             const colaboradoresFromServer = await getColaboradores()
             setColaboradores(colaboradoresFromServer)
+            return colaboradoresFromServer
         }
         fetchColaboradoresFromServer()
     }, [])
@@ -80,7 +83,7 @@ const CrearCliente = () => {
           timer: 1500
         })
         setTimeout(() => {
-          window.location.href = '/admin/clientes'
+          redirect('/admin/clientes')
         }, 1600)
           
     }

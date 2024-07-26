@@ -10,7 +10,7 @@ const Jumbotron = () => {
             <div className="flex flex-col justify-center items-center gap-8 w-full h-screen z-30 absolute">
                 <Titles title="Servicios de contabilidad general." />
                 <div className="flex space-x-9">
-                    <BotonAcento texto="Hazte Cliente" navegar="/contacto" />
+                    <BotonAcento type="button" texto="Hazte Cliente" navegar="/contacto" />
                     <BotonSimple texto="¿Ya eres cliente?" navegar="/login" />
                 </div>
             </div>
