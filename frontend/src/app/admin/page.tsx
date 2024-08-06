@@ -15,6 +15,7 @@ const Admin = () => {
 
   const findUser = async () => {
     const res = await dispatch(getUserByEmail(user))
+    console.log(res)
     return res
   }
 
@@ -29,9 +30,9 @@ const Admin = () => {
           <h1>{user}</h1>
           <Titles title='Admin' />
           <div className='w-10/12 mx-auto flex justify-between my-10'>
-            <Link href="/admin/usuarios" className='bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Usuarios</Link>
-            <Link href="/admin/clientes" className='bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Clientes</Link>
-            <Link href="/admin/colaboradores" className='bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Colaboradores</Link>
+            <Link href="/admin/usuarios" className='text-white font-bold text-center flex justify-center items-center bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Usuarios</Link>
+            <Link href="/admin/clientes" className='text-white font-bold text-center flex justify-center items-center bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Clientes</Link>
+            <Link href="/admin/colaboradores" className='text-white font-bold text-center flex justify-center items-center bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Colaboradores</Link>
           </div>
         </div>
           : <TablaClientes />

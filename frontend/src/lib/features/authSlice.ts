@@ -11,6 +11,7 @@ const urlApi = process.env.REACT_APP_API_URL
 export const signup = createAsyncThunk('auth/signup', async ({email, password}: User, { rejectWithValue}) => {
     try {
         const res = await axios.post("http://127.0.0.1:5000/login", {email, password})
+        console.log(res.data)
         return res.data
     } catch (error: any) {
         return rejectWithValue(error.response.data)

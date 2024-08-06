@@ -5,12 +5,11 @@ import Link from "next/link"
 
 const Clientes = () => {  
     const {user, isLoggedIn} = useIsLoggedIn()
-    console.log(user)
 
   return (
     <div>
       <TablaClientes />
-      {user === "r.madero.ramirez@gmail.com" ? <Link href='/admin' /> : null}
+      {user === "r.madero.ramirez@gmail.com" ? <Link href='/admin' className='mx-auto mb-10 text-white font-bold text-center flex justify-center items-center bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Volver</Link> : null}
     </div>
   )
 }
