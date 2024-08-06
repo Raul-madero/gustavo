@@ -7,7 +7,8 @@ class ClientSchema(Schema):
     nombre = fields.Str(required=True)
     giro = fields.Str(required=True)
     contacto = fields.Str(required=True)
-    colaborador_id = fields.Int(required=True)
+    colaborador_id = fields.Int()
+    user_id = fields.Int(required=True)
     # colaborador = fields.Nested(ColaboradorSchema, many=False)
     # user = fields.Nested(UserSchema, many=False)
 
@@ -47,7 +48,7 @@ class UserSchema(Schema):
     telefono = fields.Str(required=True)
     colaboradores_id = fields.Int()
     clientes_id = fields.Int()
-    cliente = fields.Nested(ClientSchema, many=True)
+    clientes = fields.Nested(ClientSchema, many=True)
     colaborador = fields.Nested(ColaboradorSchema, many=False)
 
 class LoginSchema(Schema):

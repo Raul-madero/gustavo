@@ -29,7 +29,8 @@ class ClientsList(MethodView):
             nombre = client_data['nombre'],
             giro = client_data['giro'],
             contacto = client_data['contacto'],
-            colaborador_id = client_data['colaborador_id']
+            colaborador_id = client_data['colaborador_id'],
+            user_id = client_data['user_id']
         )
         if ClientsModel.query.filter_by(rfc=client.rfc).first():
             abort(400, message = "El RFC ya existe.")
@@ -61,6 +62,7 @@ class Client(MethodView):
             cliente.giro = client_data['giro']
             cliente.contacto = client_data['contacto']
             cliente.colaborador_id = client_data['colaborador_id']
+            cliente.user_id = client_data['user_id']
         else: 
             cliente = ClientsModel(id=cliente.id, **client_data)
         try:
