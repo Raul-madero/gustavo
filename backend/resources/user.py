@@ -96,6 +96,7 @@ class Login(MethodView):
     @blp.arguments(LoginSchema)
     @blp.response(200)
     def post(self, user_data):
+        print(user_data)
         user = UsersModel.query.filter_by(email=user_data['email']).first()
         if user and pbkdf2_sha256.verify(user_data['password'], user.password):
             access_token = create_access_token(identity=user.id, fresh=True)

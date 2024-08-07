@@ -27,7 +27,7 @@ def create_app():
     app.config["OPENAPI_URL_PREFIX"] = "/"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/docs"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "/docs/swagger-ui"
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("RENDER_DB_URL")
+    app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///gustavo_ramirez.db'
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 
@@ -51,7 +51,7 @@ def create_app():
     @jwt.expired_token_loader
     def expired_token_callback():
         return jsonify({"message": "Token expirado"}), 401
-    
+    1
     @jwt.revoked_token_loader
     def revoke_token_callback():
         return jsonify({"message": "Token revocado"}), 401

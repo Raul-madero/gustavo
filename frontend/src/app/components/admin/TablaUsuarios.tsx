@@ -44,7 +44,7 @@ const TablaUsuarios = () => {
   }
 
   const handleEditar = (id: number) => {
-    window.location.href = `/admin/usuarios/crear?id=${id}`
+    window.location.href = `/admin/usuarios/crear/${id}`
   }
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const TablaUsuarios = () => {
             <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={usuario.id}>
               <td className="px-6 py-3">{usuario.email}</td>
               <td className="px-6 py-3">{usuario.telefono}</td>
-              <td className="px-6 py-3">{usuario.cliente[0]}</td>
+              <td className="px-6 py-3">{usuario.clientes[0].nombre}</td>
               <td className="px-6 py-3">{usuario.colaborador ? `${usuario.colaborador.nombre} ${usuario.colaborador.apellido}`: ""}</td>
               <td className="px-6 py-3">
                 <button onClick={() => handleEditar(usuario.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2">Editar</button>
