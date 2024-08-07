@@ -7,5 +7,5 @@ class UsersModel(db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
     telefono = db.Column(db.String(100), nullable=False)
-    cliente = db.relationship('ClientsModel', back_populates='user', lazy="dynamic", cascade="all, delete, delete-orphan")
+    clientes = db.relationship('ClientsModel', back_populates='user', uselist=True, lazy="dynamic", cascade="all, delete, delete-orphan")
     colaborador = db.relationship('ColaboradoresModel', back_populates='user', uselist=False, cascade="all, delete, delete-orphan")

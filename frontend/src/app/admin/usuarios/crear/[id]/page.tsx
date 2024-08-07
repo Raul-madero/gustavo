@@ -6,6 +6,7 @@ import { getColaboradorByName } from '@/lib/features/colaboradorSlice'
 import { crearUsuario, editUser, getUser } from '@/lib/features/userSlice'
 import { AppDispatch } from '@/lib/store'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
@@ -14,30 +15,30 @@ const CrearUsuario = () => {
   const { user, isLoggedIn } = useIsLoggedIn()
 
   const dispatch = useDispatch<AppDispatch>()
-  const [params, setParams] = useState(0)
-  const [nombre, setNombre] = useState('')
+  const searchParams = useParams<{id: string}>()
+  const params = parseInt(searchParams.id)
   const [clienteId, setClienteId] = useState(0)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [telefono, setTelefono] = useState('')
 
-  const getClienteId = async () => {
-    const cliente = await dispatch(getClienteByName(nombre))
-    if (cliente.payload) {
-      setClienteId(cliente.payload.id)
-    }else {
-      const colaborador = await dispatch(getColaboradorByName(nombre))
-      if (colaborador.payload) {
-        setClienteId(colaborador.payload.id)
-      }
-    }
-  }
+  // const getClienteId = async () => {
+  //   const cliente = await dispatch(getClienteByName(nombre))
+  //   if (cliente.payload) {
+  //     setClienteId(cliente.payload.id)
+  //   }else {
+  //     const colaborador = await dispatch(getColaboradorByName(nombre))
+  //     if (colaborador.payload) {
+  //       setClienteId(colaborador.payload.id)
+  //     }
+  //   }
+  // }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault()
     if(params !== 0) {
       const id = params
-      const cliente = await getClienteId()
+      // const cliente = await getClienteId()
       const user = await dispatch(editUser({ id, email, password, telefono, cliente_id: clienteId }))
       
       if (user.payload) {
@@ -49,7 +50,6 @@ const CrearUsuario = () => {
           timer: 1500
         });
         setTimeout(() => {
-          setNombre('')
           setEmail('')
         setPassword('')
         setTelefono('')
@@ -90,26 +90,18 @@ const CrearUsuario = () => {
         const usuario = await dispatch(getUser(id))
         setEmail(usuario.payload.email)
         setTelefono(usuario.payload.telefono)
+        setClienteId(usuario.payload.cliente_id)
       }
     }
 
   useEffect(() => {
     encontrarUsuario()
-    const param = window.location.search
-    if (param) {
-      const id = param.split('=')[1]
-      setParams(parseInt(id))
-    }
   }, [])
 
   return (
     <div className='w-3/4 mx-auto h-screen'>
       <Titles title={params !== 0 ? "Editar Usuario" : "Crear Usuario"} />
       <form onSubmit={e => handleSubmit(e)}>
-      <div className="my-4">
-            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="nombre">Nombre o Razón Social:</label>
-            <input value={nombre} onChange={e => setNombre(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="text" id="nombre" name="nombre" placeholder='Ingresa tu nombre o Razón Social' required/>
-        </div>
         <div className="my-4">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="email">Email:</label>
             <input value={email} onChange={e => setEmail(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="email" id="email" name="email" placeholder='Ingresa el Email' required/>
@@ -121,6 +113,10 @@ const CrearUsuario = () => {
         <div className="my-4">
             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="telefono">telefono:</label>
             <input value={telefono} onChange={e => setTelefono(e.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="tel" id="telefono" name="telefono" placeholder='Ingresa el telefono' required/>
+        </div>
+        <div className="my-4">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="telefono">Numero de Cliente:</label>
+            <input value={clienteId} onChange={e => setClienteId(parseInt(e.target.value))} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" type="number" id="cliente" name="cliente" placeholder='Numero de cliente' required/>
         </div>
         <button type='submit' className="text-white bg-gradient-to-br dark:from-slate-700 dark:to-slate-700 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:bg-slate-700 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">{params !== 0 ? "Editar Usuario" : "Crear Usuario"}</button>
       </form>

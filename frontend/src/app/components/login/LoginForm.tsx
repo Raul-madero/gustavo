@@ -23,7 +23,9 @@ const LoginForm = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        console.log(email, password);
         const login = await dispatch(signup({email, password}));
+        console.log(login);
         if(login.payload.access_token) {
             const token = login.payload.access_token
             sessionStorage.setItem('token', token)

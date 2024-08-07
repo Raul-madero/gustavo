@@ -14,7 +14,7 @@ const apiUrl = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000/"
 export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({email, password, telefono, cliente_id}: User) => {
     const token = sessionStorage.getItem('token')
     try {
-        const res = await axios.post(`${apiUrl}usuarios`, {email, password, telefono}, {headers: {Authorization: `Bearer ${token}`}})
+        const res = await axios.post(`${apiUrl}usuarios`, {email, password, telefono, cliente_id}, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error: any) {
         return error.response.data
@@ -62,10 +62,10 @@ export const getUserByEmail = createAsyncThunk('user/getUserByEmail', async (ema
     }
 })
 
-export const editUser = createAsyncThunk('user/editUser', async ({id, email, password, telefono}: User) => {
+export const editUser = createAsyncThunk('user/editUser', async ({id, email, password, telefono, cliente_id}: User) => {
     const token = localStorage.getItem('token')
     try {
-        const res = await axios.put(`${apiUrl}usuarios/${id}`, {email, password, telefono}, {headers: {Authorization: `Bearer ${token}`}})
+        const res = await axios.put(`${apiUrl}usuarios/${id}`, {id, email, password, telefono, cliente_id}, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error) {
         console.log(error)
