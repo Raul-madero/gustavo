@@ -18,10 +18,17 @@ const TablaClientes = () => {
 
     useEffect(() => {
         getClients().then((res: any) => {
-          console.log(res.payload)
             setClients(res.payload)
         })
     }, [])
+
+    const handleEliminar = (id: number) => {
+        console.log(id)
+    }
+
+    const handleEditar = (id: number) => {
+        console.log(id)
+    }
 
   return (
     <div className='h-screen my-10'>
@@ -41,12 +48,12 @@ const TablaClientes = () => {
           {clients && clients.map((cliente: any) => (
             <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={cliente.id}>
               <td className="px-6 py-3">{cliente.rfc}</td>
-              <td className="px-6 py-3">{cliente.nombre}</td>
+              <td className="px-6 py-3 font-extrabold">{cliente.nombre}</td>
               {/* <td className="px-6 py-3">{cliente.giro}</td> */}
               {/* <td className="px-6 py-3">{cliente.contacto}</td> */}
-              <td className="px-6 py-3">
-                {/* <button onClick={() => handleEditar(cliente.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2">Editar</button>
-                <button onClick={() => handleEliminar(cliente.id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Eliminar</button> */}
+              <td className="px-6 py-3 flex gap-2 justify-center items-center">
+                <button onClick={() => handleEditar(cliente.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2 max-w-1/2">Editar</button>
+                <button onClick={() => handleEliminar(cliente.id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full max-w-1/2">Eliminar</button>
               </td>
             </tr>
           ))}

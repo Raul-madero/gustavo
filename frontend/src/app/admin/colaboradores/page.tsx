@@ -1,13 +1,15 @@
 'use client'
-import useIsLoggedIn from '@/hooks/useIsLoggedIn'
+import ClienteNombre from '@/app/components/admin/ClienteNombre'
+import TablaColaboradores from '@/app/components/admin/TablaColaboradores'
+import Titles from '@/app/components/ui/Titles'
 import React from 'react'
 
 const Colaboradores = () => {
-  const {user, isLoggedIn} = useIsLoggedIn()
-
   return (
     <div>
-      colaboradores
+      <ClienteNombre />
+      <Titles title='Colaboradores' />
+      <TablaColaboradores />
     </div>
   )
 }

@@ -1,5 +1,7 @@
 'use client'
 import Titles from '@/app/components/ui/Titles'
+import useAlertCorrect from '@/hooks/useAlertCorrect'
+import useAlertError from '@/hooks/useAlertError'
 import useIsLoggedIn from '@/hooks/useIsLoggedIn'
 import { getClienteByName } from '@/lib/features/clienteSlice'
 import { getColaboradorByName } from '@/lib/features/colaboradorSlice'
@@ -7,12 +9,11 @@ import { crearUsuario, editUser, getUser } from '@/lib/features/userSlice'
 import { AppDispatch } from '@/lib/store'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
 
 const CrearUsuario = () => {
-  const { user, isLoggedIn } = useIsLoggedIn()
 
   const dispatch = useDispatch<AppDispatch>()
   const searchParams = useParams<{id: string}>()
@@ -42,13 +43,7 @@ const CrearUsuario = () => {
       const user = await dispatch(editUser({ id, email, password, telefono, cliente_id: clienteId }))
       
       if (user.payload) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Usuario editado correctamente.",
-          showConfirmButton: false,
-          timer: 1500
-        });
+        useAlertCorrect("Usuario editado correctamente")
         setTimeout(() => {
           setEmail('')
         setPassword('')
@@ -59,13 +54,7 @@ const CrearUsuario = () => {
     } else {
       const user = await dispatch(crearUsuario({ id: null, email, password, telefono, cliente_id: clienteId}))
       if (user.payload.code === 201) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Usuario creado correctamente",
-          showConfirmButton: false,
-          timer: 1500
-        });
+        useAlertCorrect("Usuario creado correctamente")
         setTimeout(() => {
           setEmail('')
         setPassword('')
@@ -73,13 +62,7 @@ const CrearUsuario = () => {
         window.location.href = '/admin/usuarios'
         }, 1600)
       }else if (user.payload.code === 400) {
-        Swal.fire({
-          position: "top-end",
-          icon: "error",
-          title: user.payload.message,
-          showConfirmButton: false,
-          timer: 1500
-        });
+        useAlertError("El email ya existe")
       }
     }
   }

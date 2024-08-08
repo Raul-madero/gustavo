@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import Titles from '../ui/Titles'
 import Swal from 'sweetalert2'
 import Link from 'next/link'
+import ClienteNombre from './ClienteNombre'
 
 const TablaUsuarios = () => {
   const dispatch = useDispatch<AppDispatch>()
-  const usuarios = useSelector((state: RootState) => state.user.usuario)
   const [users, setUsers] = useState<any>([])
 
   const getUsers = async () => {
@@ -57,6 +57,7 @@ const TablaUsuarios = () => {
 
   return (
     <div className='h-screen my-10'>
+      <ClienteNombre />
       <Titles title="Usuarios" />
       <Link href="/admin/usuarios/crear" type='button' className='block w-10/12 text-center mx-auto focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 my-10 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'>Crear Usuario</Link>
       <table className="w-11/12 mx-auto my-10 rounded-lg text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -76,9 +77,9 @@ const TablaUsuarios = () => {
               <td className="px-6 py-3">{usuario.telefono}</td>
               <td className="px-6 py-3">{usuario.clientes[0].nombre}</td>
               <td className="px-6 py-3">{usuario.colaborador ? `${usuario.colaborador.nombre} ${usuario.colaborador.apellido}`: ""}</td>
-              <td className="px-6 py-3">
-                <button onClick={() => handleEditar(usuario.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2">Editar</button>
-                <button onClick={() => handleEliminar(usuario.id, usuario.email)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">Eliminar</button>
+              <td className="px-6 py-3 flex gap-2">
+                <button onClick={() => handleEditar(usuario.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2 max-w-1/2">Editar</button>
+                <button onClick={() => handleEliminar(usuario.id, usuario.email)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full max-w-1/2">Eliminar</button>
               </td>
             </tr>
           ))}

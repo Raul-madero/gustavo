@@ -1,50 +1,43 @@
 'use client'
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { signup } from "@/lib/features/authSlice";
-import BotonSimple from "../ui/BotonSimple";
+
 import { AppDispatch } from "@/lib/store";
-import Swal from "sweetalert2";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import Titles from "../components/ui/Titles";
+import { editUser, getUserByEmail } from "@/lib/features/userSlice";
+import useAlertCorrect from "@/hooks/useAlertCorrect";
+import useAlertError from "@/hooks/useAlertError";
 
-interface State {
-    auth: {
-        user: string,
-        error: string
-    }
-}
 
-const LoginForm = () => {
+const Olvide = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const user = useSelector((state: State) => state.auth.user);
-    const error = useSelector((state: State) => state.auth.error);
     const dispatch = useDispatch<AppDispatch>();
-    
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const login = await dispatch(signup({email, password}));
-        console.log(login.payload)
-        if(login.payload.access_token) {
-            const token = login.payload.access_token
-            sessionStorage.setItem('token', token)
-            sessionStorage.setItem('user', email)
-            window.location.href = '/admin'
+        const user = await dispatch(getUserByEmail(email));
+        if(user.payload.id) {
+            const edit = await dispatch(editUser({id: user.payload.id, email, password, telefono: user.payload.telefono, cliente_id: user.payload.cliente_id}))
+            if (edit.payload) {
+                useAlertCorrect("Contraseña cambiada correctamente")
+                setTimeout(() => {
+                    setEmail('')
+                    setPassword('')
+                    window.location.href = '/login'
+                }, 1600)
+            }
         }else {
-            let error = login.payload
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: error.message + " " + error.code
-            })
+            let error = user.payload
+            useAlertError(error.message + " " + error.code)
         }
-        setEmail('');
-        setPassword('');
-        
+        console.log(user.payload)
     }
 
     return (
-        <div className="max-w-sm mx-auto flex flex-col">
+        <div className="w-9/12 mx-auto mt-10">
+            <Titles title="Olvidé mi contraseña" />
+            <p className="text-gray-200 text-2xl my-5">Ingrese sus datos para recuperar su contraseña:</p>
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Email:
@@ -59,7 +52,7 @@ const LoginForm = () => {
                     required
                 />
                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Password:
+                    Nueva contraseña:
                 </label>
                 <input
                     id="password"
@@ -70,14 +63,10 @@ const LoginForm = () => {
                     placeholder="Tu contraseña"
                     required
                 />
-                <button type="submit" className="text-white bg-gradient-to-br dark:from-slate-700 dark:to-slate-700 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:bg-slate-700 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Iniciar sesión</button>
+                <button type="submit" className="w-1/2 text-white bg-gradient-to-br dark:from-slate-700 dark:to-slate-700 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:bg-slate-700 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-auto mb-2">Cambiar contraseña</button>
             </form>
-            <div className="flex gap-10 items-center justify-between">
-                <BotonSimple navegar="/register" texto="¿No tienes cuenta? Registrate" />
-                <BotonSimple navegar="/olvide" texto="Olvidé mi contraseña" />
-            </div>
         </div>
     );
-}
+};
 
-export default LoginForm;
+export default Olvide;

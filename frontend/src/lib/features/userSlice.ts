@@ -41,34 +41,34 @@ export const eliminarUsuario = createAsyncThunk('user/eliminarUsuario', async (i
     }
 })
 
-export const getUser = createAsyncThunk('user/getUser', async (id: number) => {
+export const getUser = createAsyncThunk('user/getUser', async (id: number, {rejectWithValue}) => {
     const token = localStorage.getItem('token')
     try {
         const res = await axios.get(`${apiUrl}usuarios/${id}`, {headers: {Authorization: `Bearer ${token}`}})
+        console.log(res.data)
         return res.data
-    } catch (error) {
-        console.log(error)
+    } catch (error: any) {
+        return rejectWithValue(error.response.data)
     }
 })
 
-export const getUserByEmail = createAsyncThunk('user/getUserByEmail', async (email: string) => {
-    const token = localStorage.getItem('token')
-    console.log(email)
+export const getUserByEmail = createAsyncThunk('user/getUserByEmail', async (email: string, {rejectWithValue}) => {
+    // const token = localStorage.getItem('token')
     try {
-        const res = await axios.get(`${apiUrl}usuarios/${email}`, {headers: {Authorization: `Bearer ${token}`}})
+        const res = await axios.get(`${apiUrl}usuarios/${email}`)
         return res.data
-    } catch (error) {
-        console.log(error)
+    } catch (error: any) {
+        return rejectWithValue(error.response.data)
     }
 })
 
-export const editUser = createAsyncThunk('user/editUser', async ({id, email, password, telefono, cliente_id}: User) => {
+export const editUser = createAsyncThunk('user/editUser', async ({id, email, password, telefono, cliente_id}: User, {rejectWithValue}) => {
     const token = localStorage.getItem('token')
     try {
-        const res = await axios.put(`${apiUrl}usuarios/${id}`, {id, email, password, telefono, cliente_id}, {headers: {Authorization: `Bearer ${token}`}})
+        const res = await axios.put(`${apiUrl}usuarios/${id}`, {email, password, telefono, cliente_id}, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
-    } catch (error) {
-        console.log(error)
+    } catch (error: any) {
+        return rejectWithValue(error.response.data)
     }
 })
 

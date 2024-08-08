@@ -10,6 +10,8 @@ import { AppDispatch } from '@/lib/store'
 import Swal from 'sweetalert2'
 import useIsLoggedIn from '@/hooks/useIsLoggedIn'
 import { redirect, useParams } from 'next/navigation'
+import ClienteNombre from '@/app/components/admin/ClienteNombre'
+import useAlertCorrect from '@/hooks/useAlertCorrect'
 
 // interface State {
 //     cliente: {cliente: {
@@ -32,14 +34,8 @@ interface Cliente {
 }
 
 const CrearCliente = () => {
-    const {user, isLoggedIn} = useIsLoggedIn()
-    
-    const cliente = useSelector((state: any) => state.cliente.cliente)
-    const loading = useSelector((state: any) => state.loading)
-    const error = useSelector((state: any) => state.error)
     const dispatch = useDispatch<AppDispatch>()
     const params = useParams<{id: string}>()
-    console.log(params)
 
     const [rfc, setRfc] = useState('')
     const [nombre, setNombre] = useState('')
@@ -76,12 +72,7 @@ const CrearCliente = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         dispatch(crearCliente(nuevoCliente))
-        Swal.fire({
-          title: 'Cliente creado',
-          icon: 'success',
-          showConfirmButton: false,
-          timer: 1500
-        })
+        useAlertCorrect('Cliente creado correctamente')
         setTimeout(() => {
           redirect('/admin/clientes')
         }, 1600)
@@ -89,6 +80,7 @@ const CrearCliente = () => {
     }
   return (
     <div className='my-10'>
+      <ClienteNombre />
       <Titles title="Crear cliente" />
       <form onSubmit={e => handleSubmit(e)} className='w-3/4 mx-auto my-10'>
         <div className="my-8">

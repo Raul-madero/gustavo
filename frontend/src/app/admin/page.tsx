@@ -1,5 +1,5 @@
 'use client'
-import React, { use, useEffect } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import TablaClientes from '../components/admin/TablaClientes'
 import Titles from '../components/ui/Titles'
 import useIsLoggedIn from '@/hooks/useIsLoggedIn'
@@ -7,27 +7,18 @@ import { useDispatch } from 'react-redux'
 import { AppDispatch } from '@/lib/store'
 import { getUserByEmail } from '@/lib/features/userSlice'
 import Link from 'next/link'
+import ClienteNombre from '../components/admin/ClienteNombre'
 
 
 const Admin = () => {
-  const {user, isLoggedIn} = useIsLoggedIn()
-  const dispatch = useDispatch<AppDispatch>()
+  const {email, isLoggedIn} = useIsLoggedIn()
 
-  const findUser = async () => {
-    const res = await dispatch(getUserByEmail(user))
-    console.log(res)
-    return res
-  }
-
-  if (isLoggedIn) {
-    findUser()
-  }
 
   return (
     <div>
-        {user === "r.madero.ramirez@gmail.com" ? 
+        {email === "r.madero.ramirez@gmail.com" ? 
         <div className='mt-10 h-screen'>
-          <h1>{user}</h1>
+          <ClienteNombre />
           <Titles title='Admin' />
           <div className='w-10/12 mx-auto flex justify-between my-10'>
             <Link href="/admin/usuarios" className='text-white font-bold text-center flex justify-center items-center bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Usuarios</Link>

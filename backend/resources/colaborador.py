@@ -24,7 +24,6 @@ class Colaboradores(MethodView):
         colaborador = ColaboradoresModel(
             nombre = colaborador_data['nombre'],
             apellido = colaborador_data['apellido'],
-            user_id = colaborador_data['user_id'],
             is_admin = colaborador_data['is_admin']
         )
         try:
