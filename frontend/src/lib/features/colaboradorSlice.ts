@@ -34,6 +34,15 @@ export const crearColaborador = createAsyncThunk('colaborador/crearColaborador',
     }
 })
 
+export const editColaborador = createAsyncThunk('colaborador/editColaborador', async ({id, nombre, apellido, is_admin}: Colaborador & {id: number}) => {
+    try {
+        const res = await axios.put(`http://127.0.0.1:5000/colaboradores/${id}`, {nombre, apellido, is_admin})
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 const initialState = {
     colaborador: {
         nombre: '',

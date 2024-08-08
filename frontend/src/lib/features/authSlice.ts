@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit"
 import axios from "axios"
 
 interface User {
@@ -8,12 +8,13 @@ interface User {
 
 const urlApi = process.env.REACT_APP_API_URL
 
-export const signup = createAsyncThunk('auth/signup', async ({email, password}: User) => {
+export const signup = createAsyncThunk('auth/signup', async ({email, password}: User, {rejectWithValue} ) => {
     try {
-        const res = await axios.post("http://127.0.0.1:5000/login", {email: email, password: password})
+        const res = await axios.post("http://127.0.0.1:5000/login", {email, password})
+        console.log(res.data)
         return res.data
     } catch (error: any) {
-        console.log(error)
+        return rejectWithValue(error.response.data)
     }
 })
 
