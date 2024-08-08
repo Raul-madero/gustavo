@@ -45,7 +45,7 @@ const LoginForm = () => {
     }
 
     return (
-        <div className="max-w-sm mx-auto flex flex-col gap-10">
+        <div className="max-w-sm mx-auto flex flex-col">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Email:
