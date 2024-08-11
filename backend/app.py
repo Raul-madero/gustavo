@@ -5,11 +5,18 @@ from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from flask_cors import CORS
 
-
 from db import db
 import models
 import os
 import psycopg2
+
+
+db_user = os.getenv('DB_USER')
+db_password = os.getenv('DB_PASSWORD')
+db_host = os.getenv('DB_HOST')
+db_port = os.getenv('DB_PORT')
+db_name = os.getenv('DB_NAME')
+
 
 from blocklist import BLOCKLIST
 from resources.clients import blp as clients_blueprint
@@ -19,7 +26,7 @@ from resources.user import blp as users_blueprint
 def create_app():
     app = Flask(__name__)
     cors = CORS(app)
-# os.getenv("MONGODB_URL", 
+    
     app.config["PROPAGATE_EXTENSIONS"] = True
     app.config["API_TITLE"] = "API de contabilidad"
     app.config["API_VERSION"] = "1.0.0"
@@ -27,7 +34,7 @@ def create_app():
     app.config["OPENAPI_URL_PREFIX"] = "/"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/docs"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "/docs/swagger-ui"
-    app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///gustavo_ramirez.db'
+    app.config["SQLALCHEMY_DATABASE_URI"] = f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 
