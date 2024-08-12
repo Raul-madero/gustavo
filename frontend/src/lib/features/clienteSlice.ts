@@ -21,7 +21,7 @@ export const getClientes = createAsyncThunk('cliente/getClientes', async () => {
 
 export const getClienteByName = createAsyncThunk('cliente/getClienteByName', async (nombre: string) => {
     try {
-        const res = await axios.get(`http://127.0.0.1:5000/clientes/${nombre}`)
+        const res = await axios.get(`${dbUrl}/clientes/${nombre}`)
         return res.data
     } catch (error) {
         console.log(error)
@@ -31,7 +31,7 @@ export const getClienteByName = createAsyncThunk('cliente/getClienteByName', asy
 export const crearCliente = createAsyncThunk('cliente/crearCliente', async ({rfc, nombre, giro, contacto, colaborador_id}: Cliente) => {
     const token = sessionStorage.getItem('token')
     try {
-        const res = await axios.post('http://127.0.0.1:5000/clientes', {rfc, nombre, giro, contacto, colaborador_id}, {headers: {Authorization: `Bearer ${token}`}})
+        const res = await axios.post(`${dbUrl}/clientes`, {rfc, nombre, giro, contacto, colaborador_id}, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error) {
         console.log(error)
