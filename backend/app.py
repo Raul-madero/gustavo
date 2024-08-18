@@ -11,11 +11,11 @@ import os
 import psycopg2
 
 
-db_user = os.getenv('USER')
-db_password = os.getenv('PASSWORD')
-db_host = os.getenv('HOST')
-db_port = os.getenv('PORT')
-db_name = os.getenv('NAME')
+db_user = os.getenv('DB_USER')
+db_password = os.getenv('DB_PASSWORD')
+db_host = os.getenv('DB_HOST')
+db_port = os.getenv('DB_PORT')
+db_name = os.getenv('DB_NAME')
 
 
 from blocklist import BLOCKLIST
