@@ -75,4 +75,6 @@ def create_app():
     api.register_blueprint(colaboradores_blueprints)
     api.register_blueprint(users_blueprint)
 
+    app.run()
+    
     return app
