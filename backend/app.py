@@ -58,7 +58,7 @@ def create_app():
     @jwt.expired_token_loader
     def expired_token_callback():
         return jsonify({"message": "Token expirado"}), 401
-    1
+    
     @jwt.revoked_token_loader
     def revoke_token_callback():
         return jsonify({"message": "Token revocado"}), 401
@@ -75,6 +75,4 @@ def create_app():
     api.register_blueprint(colaboradores_blueprints)
     api.register_blueprint(users_blueprint)
 
-    app.run()
-    
     return app
