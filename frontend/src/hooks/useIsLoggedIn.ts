@@ -12,7 +12,7 @@ const useIsLoggedIn = () => {
     const getUser = async (email: string) => {
         const user = await dispatch(getUserByEmail(email));
         if(user.payload.id) {
-            setUser(user.payload.clientes[0].contacto);
+            setUser(user.payload.nombre + " " + user.payload.apellido);
             setEmail(user.payload.email)
         }else {
             return "El usuario no existe";

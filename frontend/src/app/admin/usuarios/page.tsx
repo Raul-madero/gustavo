@@ -8,7 +8,6 @@ const Usuarios = () => {
 
     return (
         <div>
-            <h1>{user}</h1>
             <TablaUsuarios />
         </div>
     )
