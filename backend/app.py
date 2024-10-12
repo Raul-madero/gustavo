@@ -16,6 +16,7 @@ db_password = os.getenv('DB_PASSWORD')
 db_host = os.getenv('DB_HOST')
 db_port = os.getenv('DB_PORT')
 db_name = os.getenv('DB_NAME')
+db_url = f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}' or 'sqlite:///gustavo_ramirez.db'
 
 
 from blocklist import BLOCKLIST
@@ -34,7 +35,7 @@ def create_app():
     app.config["OPENAPI_URL_PREFIX"] = "/"
     app.config["OPENAPI_SWAGGER_UI_PATH"] = "/docs"
     app.config["OPENAPI_SWAGGER_UI_URL"] = "/docs/swagger-ui"
-    app.config["SQLALCHEMY_DATABASE_URI"] =  f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
+    app.config["SQLALCHEMY_DATABASE_URI"] =  'sqlite:///gustavo_ramirez.db' or db_url
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 

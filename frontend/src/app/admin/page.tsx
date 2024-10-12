@@ -11,12 +11,12 @@ import ClienteNombre from '../components/admin/ClienteNombre'
 
 
 const Admin = () => {
-  const {email, isLoggedIn} = useIsLoggedIn()
+  // const {email, isLoggedIn} = useIsLoggedIn()
 
 
   return (
     <div>
-        {email === "r.madero.ramirez@gmail.com" ? 
+        {/* {email === "r.madero.ramirez@gmail.com" ?  */}
         <div className='mt-10 h-screen'>
           <ClienteNombre />
           <Titles title='Admin' />
@@ -26,8 +26,8 @@ const Admin = () => {
             <Link href="/admin/colaboradores" className='text-white font-bold text-center flex justify-center items-center bg-emerald-400 w-48 h-16 rounded-xl shadow-xl'>Colaboradores</Link>
           </div>
         </div>
-          : <TablaClientes />
-      }
+          {/* : <TablaClientes /> */}
+      {/* } */}
     </div>
   )
 }

@@ -6,8 +6,6 @@ class ClientsModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     rfc = db.Column(db.String(13), nullable=False, unique=True)
     nombre = db.Column(db.String(100), nullable=False)
-    giro = db.Column(db.String(100), nullable=False)
-    contacto = db.Column(db.String(100), nullable=False)
     colaborador_id = db.Column(db.Integer, db.ForeignKey('colaboradores.id'))
     colaborador = db.relationship('ColaboradoresModel', back_populates='clientes')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))

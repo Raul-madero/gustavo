@@ -27,8 +27,6 @@ class ClientsList(MethodView):
         client = ClientsModel(
             rfc = client_data['rfc'],
             nombre = client_data['nombre'],
-            giro = client_data['giro'],
-            contacto = client_data['contacto'],
             colaborador_id = client_data['colaborador_id'],
             user_id = client_data['user_id']
         )
@@ -59,8 +57,6 @@ class Client(MethodView):
         if cliente:
             cliente.rfc = client_data['rfc']
             cliente.nombre = client_data['nombre']
-            cliente.giro = client_data['giro']
-            cliente.contacto = client_data['contacto']
             cliente.colaborador_id = client_data['colaborador_id']
             cliente.user_id = client_data['user_id']
         else: 

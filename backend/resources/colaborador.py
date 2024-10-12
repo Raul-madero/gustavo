@@ -22,8 +22,6 @@ class Colaboradores(MethodView):
     @blp.response(201, ColaboradorSchema)
     def post(self, colaborador_data):
         colaborador = ColaboradoresModel(
-            nombre = colaborador_data['nombre'],
-            apellido = colaborador_data['apellido'],
             is_admin = colaborador_data['is_admin']
         )
         try:
@@ -48,8 +46,6 @@ class Colaborador(MethodView):
     def put(self, colaborador_data, id):
         colaborador = ColaboradoresModel.query.get(id)
         if colaborador:
-            colaborador.nombre = colaborador_data['nombre']
-            colaborador.apellido = colaborador_data['apellido']
             colaborador.user_id = colaborador_data['user_id']
         else:
             colaborador = ColaboradoresModel(id=colaborador.id, **colaborador_data)
@@ -67,11 +63,3 @@ class Colaborador(MethodView):
         db.session.delete(colaborador)
         db.session.commit()
         return 'Eliminado', 204
-    
-@blp.route('/colaboradores/<string:nombre>', methods=["GET"])
-def get_colaborador_by_name(nombre):
-    colaborador = ColaboradoresModel.query.filter_by(nombre=nombre).first()
-    if colaborador:
-        return colaborador, 200
-    else:
-        abort(404, message="Colaborador no encontrado.")

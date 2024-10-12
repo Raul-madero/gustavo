@@ -2,9 +2,9 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface Colaborador {
-    nombre: string,
-    apellido: string,
-    is_admin: boolean
+    id: number | null,
+    is_admin: boolean,
+    user_id: number,
 }
 
 export const fetchColaboradores = createAsyncThunk('colaborador/fetchColaboradores', async () => {
@@ -25,18 +25,18 @@ export const getColaboradorByName = createAsyncThunk('colaborador/getColaborador
     }
 })
 
-export const crearColaborador = createAsyncThunk('colaborador/crearColaborador', async ({nombre, apellido, is_admin}: Colaborador) => {
+export const crearColaborador = createAsyncThunk('colaborador/crearColaborador', async ({ is_admin, user_id}: Colaborador) => {
     try {
-        const res = await axios.post('http://127.0.0.1:5000/colaboradores', {nombre, apellido, is_admin})
+        const res = await axios.post('http://127.0.0.1:5000/colaboradores', {is_admin, user_id})
         return res.data
     } catch (error) {
         console.log(error)
     }
 })
 
-export const editColaborador = createAsyncThunk('colaborador/editColaborador', async ({id, nombre, apellido, is_admin}: Colaborador & {id: number}) => {
+export const editColaborador = createAsyncThunk('colaborador/editColaborador', async ({id, is_admin, user_id}: Colaborador & {id: number}) => {
     try {
-        const res = await axios.put(`http://127.0.0.1:5000/colaboradores/${id}`, {nombre, apellido, is_admin})
+        const res = await axios.put(`http://127.0.0.1:5000/colaboradores/${id}`, {is_admin, user_id})
         return res.data
     } catch (error) {
         console.log(error)
@@ -45,9 +45,8 @@ export const editColaborador = createAsyncThunk('colaborador/editColaborador', a
 
 const initialState = {
     colaborador: {
-        nombre: '',
-        apellido: '',
-        is_admin: false
+        is_admin: false,
+        user_id: 0
     },
     loading: false,
     error: ""

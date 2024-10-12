@@ -1,56 +1,51 @@
 from marshmallow import Schema, fields
 
+#esquema de colaborador
+class ColaboradorSchema(Schema):
+    id = fields.Int(dump_only=True)
+    is_admin = fields.Bool(required=True)
+    user_id = fields.Int()
 
+
+class PutColaboradorSchema(Schema):
+    user_id = fields.Int()
+    is_admin = fields.Bool()
+
+# esquema de cliente
 class ClientSchema(Schema):
     id = fields.Int(dump_only=True)
     rfc = fields.Str(required=True, unique=True)
     nombre = fields.Str(required=True)
-    giro = fields.Str(required=True)
-    contacto = fields.Str(required=True)
     colaborador_id = fields.Int()
     user_id = fields.Int(required=True)
-    # colaborador = fields.Nested(ColaboradorSchema, many=False)
-    # user = fields.Nested(UserSchema, many=False)
+    colaborador = fields.Nested(ColaboradorSchema, many=False)
 
 class PutClientSchema(Schema):
     rfc = fields.Str()
     nombre = fields.Str()
-    giro = fields.Str()
-    contacto = fields.Str()
     colaborador_id = fields.Int()
     user_id = fields.Int()
 
 
-class ColaboradorSchema(Schema):
-    id = fields.Int(dump_only=True)
-    nombre = fields.Str(required=True)
-    apellido = fields.Str(required=True)
-    is_admin = fields.Bool(required=True)
-    user_id = fields.Int()
-    clientes = fields.Nested(ClientSchema, many=True)
-    # user = fields.Nested(UserSchema, many=False)
-
-class PutColaboradorSchema(Schema):
-    nombre = fields.Str()
-    apellido = fields.Str()
-    user_id = fields.Int()
 
 class PutUserSchema(Schema):
-    rfc = fields.Str()
     email = fields.Str()
     password = fields.Str()
-    telefono = fields.Str()
 
-class UserSchema(Schema):
-    id = fields.Int(dump_only=True)
-    email = fields.Str(required=True, unique=True)
-    password = fields.Str(required=True, load_only=True)
-    telefono = fields.Str(required=True)
-    colaboradores_id = fields.Int()
-    clientes_id = fields.Int()
-    clientes = fields.Nested(ClientSchema, many=True)
-    colaborador = fields.Nested(ColaboradorSchema, many=False)
 
+# esquema de login
 class LoginSchema(Schema):
     email = fields.Str(required=True)
     password = fields.Str(required=True)
+
+
+# esquema de usuario
+class UserSchema(Schema):
+    id = fields.Int(dump_only=True)
+    nombre = fields.Str(required=False)
+    apellido = fields.Str(required=False)
+    email = fields.Str(required=False)
+    password = fields.Str(required=False, dump_only=True)
+    verificado = fields.Bool()
+    colaborador = fields.Nested(ColaboradorSchema, many=False)
+    clientes = fields.Nested(ClientSchema, many=True)

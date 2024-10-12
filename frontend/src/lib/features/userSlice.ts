@@ -3,18 +3,19 @@ import axios from "axios";
 
 interface User {
     id: number | null,
+    nombre: string,
+    apellido: string,
     email: string,
     password: string,
-    telefono: string,
-    cliente_id: number
+    verificado: boolean
 }
 
 const apiUrl = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000/"
 
-export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({email, password, telefono, cliente_id}: User) => {
+export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({nombre, apellido, email, password, verificado}: User) => {
     const token = sessionStorage.getItem('token')
     try {
-        const res = await axios.post(`${apiUrl}usuarios`, {email, password, telefono, cliente_id}, {headers: {Authorization: `Bearer ${token}`}})
+        const res = await axios.post(`${apiUrl}usuarios`, {nombre, apellido,email, password,verificado }, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error: any) {
         return error.response.data
@@ -62,10 +63,10 @@ export const getUserByEmail = createAsyncThunk('user/getUserByEmail', async (ema
     }
 })
 
-export const editUser = createAsyncThunk('user/editUser', async ({id, email, password, telefono, cliente_id}: User, {rejectWithValue}) => {
+export const editUser = createAsyncThunk('user/editUser', async ({id,nombre, apellido, email, password, verificado}: User, {rejectWithValue}) => {
     const token = localStorage.getItem('token')
     try {
-        const res = await axios.put(`${apiUrl}usuarios/${id}`, {email, password, telefono, cliente_id}, {headers: {Authorization: `Bearer ${token}`}})
+        const res = await axios.put(`${apiUrl}usuarios/${id}`, {nombre, apellido,email, password, verificado}, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error: any) {
         return rejectWithValue(error.response.data)
@@ -74,11 +75,11 @@ export const editUser = createAsyncThunk('user/editUser', async ({id, email, pas
 
 const initialState = {
     usuario: {
+        nombre: "",
+        apellido: "",
         email: "",
         password: "",
-        telefono: "",
-        cliente: 0,
-        colaborador: 0
+        verificado: false
     },
     loading: false,
     error: ""

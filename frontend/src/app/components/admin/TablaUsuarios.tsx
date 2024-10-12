@@ -63,23 +63,21 @@ const TablaUsuarios = () => {
       <table className="w-11/12 mx-auto my-10 rounded-lg text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th className="px-6 py-3 text-center">Email</th>
-            <th className="px-6 py-3 text-center">Telefono</th>
-            <th className="px-6 py-3 text-center">Cliente</th>
-            <th className="px-6 py-3 text-center">Colaborador</th>
+            <th className="px-6 py-3 text-center">Nombre</th>
+            <th className="px-6 py-3 text-center">Apellido</th>
+            <th className="px-6 py-3 text-center">Correo</th>
             <th className="px-6 py-3 text-center">Acciones</th>
           </tr>
         </thead>
         <tbody >
           {users && users.map((usuario: any) => (
             <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={usuario.id}>
+              <td className="px-6 py-3">{usuario.nombre}</td>
+              <td className="px-6 py-3">{usuario.apellido}</td>
               <td className="px-6 py-3">{usuario.email}</td>
-              <td className="px-6 py-3">{usuario.telefono}</td>
-              <td className="px-6 py-3">{usuario.clientes[0].nombre}</td>
-              <td className="px-6 py-3">{usuario.colaborador ? `${usuario.colaborador.nombre} ${usuario.colaborador.apellido}`: ""}</td>
               <td className="px-6 py-3 flex gap-2">
                 <button onClick={() => handleEditar(usuario.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2 max-w-1/2">Editar</button>
-                <button onClick={() => handleEliminar(usuario.id, usuario.email)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full max-w-1/2">Eliminar</button>
+                <button onClick={() => handleEliminar(usuario.id, usuario.nombre)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full max-w-1/2">Eliminar</button>
               </td>
             </tr>
           ))}

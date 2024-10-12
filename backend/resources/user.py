@@ -36,9 +36,11 @@ class UsersList(MethodView):
     @blp.response(201, UserSchema)
     def post(self, user_data):
         user = UsersModel(
+            nombre = user_data['nombre'],
+            apellido = user_data['apellido'],
             email = user_data['email'],
             password = pbkdf2_sha256.hash(user_data['password']),
-            telefono = user_data['telefono']
+            verificado = user_data['verificado']
         )
         if UsersModel.query.filter_by(email=user.email).first():
             abort(400, message="Email ya registrado.")
@@ -64,9 +66,11 @@ class Users(MethodView):
     @blp.response(200, UserSchema)
     def put(self, user_data, id):
         user = UsersModel.query.get_or_404(id)
+        user.nombre = user_data['nombre']
+        user.apellido = user_data['apellido']
         user.email = user_data['email']
         user.password = pbkdf2_sha256.hash(user_data['password'])
-        user.telefono = user_data['telefono']
+        user.verificado = user_data['verificado']
         try:
             db.session.add(user)
             db.session.commit()

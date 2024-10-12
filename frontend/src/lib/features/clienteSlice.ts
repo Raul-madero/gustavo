@@ -2,11 +2,11 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "axios";
 
 interface Cliente {
+    id: number | null,
     rfc: string,
     nombre: string,
-    giro: string,
-    contacto: string,
-    colaborador_id: number
+    user_id: number,
+    colaborador_id: number,
 }
 
 const dbUrl = process.env.DB_URL
@@ -28,10 +28,10 @@ export const getClienteByName = createAsyncThunk('cliente/getClienteByName', asy
     }
 })
 
-export const crearCliente = createAsyncThunk('cliente/crearCliente', async ({rfc, nombre, giro, contacto, colaborador_id}: Cliente) => {
+export const crearCliente = createAsyncThunk('cliente/crearCliente', async ({rfc, nombre, user_id, colaborador_id}: Cliente) => {
     const token = sessionStorage.getItem('token')
     try {
-        const res = await axios.post(`${dbUrl}/clientes`, {rfc, nombre, giro, contacto, colaborador_id}, {headers: {Authorization: `Bearer ${token}`}})
+        const res = await axios.post(`${dbUrl}/clientes`, {rfc, nombre, user_id, colaborador_id}, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error) {
         console.log(error)
@@ -42,9 +42,8 @@ const initialState = {
     cliente: {
         rfc: "",
         nombre: "",
-        giro: "",
-        contacto: "",
-        colaborador: 0
+        user_id: 0,
+        colaborador_id: 0
     },
     loading: false,
     error: "" 
