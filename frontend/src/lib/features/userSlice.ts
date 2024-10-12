@@ -15,7 +15,9 @@ const apiUrl = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000/"
 export const crearUsuario = createAsyncThunk('user/crearUsuario', async ({nombre, apellido, email, password, verificado}: User) => {
     const token = sessionStorage.getItem('token')
     try {
-        const res = await axios.post(`${apiUrl}usuarios`, {nombre, apellido,email, password,verificado }, {headers: {Authorization: `Bearer ${token}`}})
+        const res = await axios.post(`${apiUrl}usuarios`, {nombre, apellido, email, password, verificado }
+            // {headers: {Authorization: `Bearer ${token}`}}
+        )
         return res.data
     } catch (error: any) {
         return error.response.data

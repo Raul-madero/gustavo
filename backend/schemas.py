@@ -45,7 +45,7 @@ class UserSchema(Schema):
     nombre = fields.Str(required=False)
     apellido = fields.Str(required=False)
     email = fields.Str(required=False)
-    password = fields.Str(required=False, dump_only=True)
+    password = fields.Str(required=False, load_only=True)
     verificado = fields.Bool()
     colaborador = fields.Nested(ColaboradorSchema, many=False)
     clientes = fields.Nested(ClientSchema, many=True)
