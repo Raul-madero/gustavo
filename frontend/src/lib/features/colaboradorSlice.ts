@@ -16,15 +16,6 @@ export const fetchColaboradores = createAsyncThunk('colaborador/fetchColaborador
     }
 })
 
-export const getColaboradorByName = createAsyncThunk('colaborador/getColaboradorByName', async (nombre: string) => {
-    try {
-        const res = await axios.get(`http://127.0.0.1:5000/colaboradores/${nombre}`)
-        return res.data
-    } catch (error) {
-        console.log(error)
-    }
-})
-
 export const crearColaborador = createAsyncThunk('colaborador/crearColaborador', async ({ is_admin, user_id}: Colaborador) => {
     try {
         const res = await axios.post('http://127.0.0.1:5000/colaboradores', {is_admin, user_id})
@@ -37,6 +28,15 @@ export const crearColaborador = createAsyncThunk('colaborador/crearColaborador',
 export const editColaborador = createAsyncThunk('colaborador/editColaborador', async ({id, is_admin, user_id}: Colaborador & {id: number}) => {
     try {
         const res = await axios.put(`http://127.0.0.1:5000/colaboradores/${id}`, {is_admin, user_id})
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const deleteColaborador = createAsyncThunk('colaborador/deleteColaborador', async (id: number) => {
+    try {
+        const res = await axios.delete(`http://127.0.0.1:5000/colaboradores/${id}`)
         return res.data
     } catch (error) {
         console.log(error)

@@ -9,7 +9,7 @@ interface Cliente {
     colaborador_id: number,
 }
 
-const dbUrl = process.env.DB_URL
+const dbUrl = 'http://localhost:5000'
 export const getClientes = createAsyncThunk('cliente/getClientes', async () => {
     try {
         const res = await axios.get(`${dbUrl}/clientes`)

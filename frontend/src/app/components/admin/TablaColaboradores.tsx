@@ -1,9 +1,10 @@
 'use client'
-import { fetchColaboradores } from '@/lib/features/colaboradorSlice'
+import { deleteColaborador, fetchColaboradores } from '@/lib/features/colaboradorSlice'
 import { AppDispatch } from '@/lib/store'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import Swal from 'sweetalert2'
 
 const TablaColaboradores = () => {
     const [colabs, setColabs] = useState<any>([])
@@ -20,10 +21,30 @@ const TablaColaboradores = () => {
         })
     }, [])
 
-    console.log(colabs)
+    const confirmEliminar = (id: number) => {
+        dispatch(deleteColaborador(id))
+        window.location.reload()
+    }
 
     const handleEliminar = (id: number, nombre: string, apellido: string) => {
-        console.log(id, nombre, apellido)
+        Swal.fire({
+            title: `¿Estás seguro de eliminar a ${nombre} ${apellido}?`,
+            text: "No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "¡Sí, eliminarlo!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              confirmEliminar(id)
+              Swal.fire({
+                title: "¡Eliminado!",
+                text: "El usuario ha sido eliminado.",
+                icon: "success"
+              });
+            }
+          });
     }
 
     const handleEditar = (id: number) => {
@@ -38,19 +59,17 @@ const TablaColaboradores = () => {
                 <tr>
                     <th className="px-6 py-3 text-center">Nombre</th>
                     <th className="px-6 py-3 text-center">Apellido</th>
-                    <th className="px-6 py-3 text-center">Admin</th>
                     <th className="px-6 py-3 text-center">Acciones</th>
                 </tr>
                 </thead>
                 <tbody >
                 {colabs && colabs.map((colab: any) => (
                     <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={colab.id}>
-                    <td className="px-6 py-3 text-center">{colab.nombre}</td>
-                    <td className="px-6 py-3 text-center">{colab.apellido}</td>
-                    <td className="px-6 py-3 text-center">{colab.is_admin ? "Admin" : ""}</td>
+                    <td className="px-6 py-3 text-center">{colab.user.nombre}</td>
+                    <td className="px-6 py-3 text-center">{colab.user.apellido}</td>
                     <td className="px-6 py-3 flex gap-2 items-center justify-center">
                         <button onClick={() => handleEditar(colab.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2 max-w-1/2">Editar</button>
-                        <button onClick={() => handleEliminar(colab.id, colab.nombre, colab.apellido)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full max-w-1/2">Eliminar</button>
+                        <button onClick={() => handleEliminar(colab.id, colab.user.nombre, colab.user.apellido)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full max-w-1/2">Eliminar</button>
                     </td>
                     </tr>
                 ))}

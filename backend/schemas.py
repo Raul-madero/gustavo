@@ -4,8 +4,8 @@ from marshmallow import Schema, fields
 class ColaboradorSchema(Schema):
     id = fields.Int(dump_only=True)
     is_admin = fields.Bool(required=True)
-    user_id = fields.Int()
-
+    user_id = fields.Int(required=True, ForeignKey='user.id')
+    user = fields.Nested('UserSchema', many=False)
 
 class PutColaboradorSchema(Schema):
     user_id = fields.Int()
@@ -26,12 +26,9 @@ class PutClientSchema(Schema):
     colaborador_id = fields.Int()
     user_id = fields.Int()
 
-
-
 class PutUserSchema(Schema):
     email = fields.Str()
     password = fields.Str()
-
 
 # esquema de login
 class LoginSchema(Schema):
@@ -47,5 +44,5 @@ class UserSchema(Schema):
     email = fields.Str(required=False)
     password = fields.Str(required=False, load_only=True)
     verificado = fields.Bool()
-    colaborador = fields.Nested(ColaboradorSchema, many=False)
+    # colaborador = fields.Nested(ColaboradorSchema, many=False)
     clientes = fields.Nested(ClientSchema, many=True)

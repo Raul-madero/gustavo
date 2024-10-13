@@ -22,7 +22,8 @@ class Colaboradores(MethodView):
     @blp.response(201, ColaboradorSchema)
     def post(self, colaborador_data):
         colaborador = ColaboradoresModel(
-            is_admin = colaborador_data['is_admin']
+            is_admin = colaborador_data['is_admin'],
+            user_id = colaborador_data['user_id']
         )
         try:
             db.session.add(colaborador)
