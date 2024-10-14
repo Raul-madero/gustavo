@@ -1,5 +1,6 @@
 'use client'
 import useAlertCorrect from "@/hooks/useAlertCorrect";
+import useAlertError from "@/hooks/useAlertError";
 import { crearUsuario } from "@/lib/features/userSlice";
 import { AppDispatch } from "@/lib/store";
 import Link from "next/link";
@@ -34,10 +35,14 @@ const RegisterForm = () => {
         verificado: false
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch(crearUsuario(newUser))
-        useAlertCorrect('Usuario creado correctamente')
+        const user = await dispatch(crearUsuario(newUser))
+        if (user.payload.code === 201) {
+            useAlertCorrect('Usuario creado correctamente')
+        } else {
+            useAlertError(user.payload.message)
+        }
         setTimeout(() => {
             redirect('/login')
         }, 1600)

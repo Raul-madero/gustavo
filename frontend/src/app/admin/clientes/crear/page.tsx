@@ -5,12 +5,10 @@ import { crearCliente, editarCliente, getCliente } from '@/lib/features/clienteS
 import { fetchColaboradores } from '@/lib/features/colaboradorSlice'
 import Titles from '@/app/components/ui/Titles'
 import { AppDispatch } from '@/lib/store'
-import Swal from 'sweetalert2'
 import { useParams } from 'next/navigation'
 import ClienteNombre from '@/app/components/admin/ClienteNombre'
 import useAlertCorrect from '@/hooks/useAlertCorrect'
 import { obtenerUsuarios } from '@/lib/features/userSlice'
-import { parse } from 'path'
 
 // interface State {
 //     cliente: {cliente: {
@@ -91,10 +89,12 @@ const CrearCliente = () => {
     }
 
     const handleSelectUser = (e: any) => {
+      console.log(e.target.value)
       setUser_id(e.target.value)
     }
 
     const handleSelectColaborador = (e: any) => {
+      console.log(e.target.value)
       setColaborador(e.target.value)
     }
 
@@ -122,8 +122,8 @@ const CrearCliente = () => {
         </div>
         <div className="my-8">
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="colaborador">Usuario:</label>
-          <select onSelect={(e) => handleSelectUser(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="colaborador" id="colaborador">
-            <option className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="0">--Selecciona un colaborador--</option>
+          <select onChange={(e) => handleSelectUser(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="colaborador" id="colaborador">
+            <option className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="">--Selecciona un colaborador--</option>
             {users && users.map((user: any) => (
               <option key={user.id} value={user.id}>{user.nombre} {user.apellido}</option>
               ))}

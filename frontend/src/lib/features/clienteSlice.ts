@@ -40,8 +40,19 @@ export const getClienteByName = createAsyncThunk('cliente/getClienteByName', asy
 
 export const crearCliente = createAsyncThunk('cliente/crearCliente', async ({rfc, nombre, user_id, colaborador_id}: Cliente) => {
     const token = sessionStorage.getItem('token')
+    console.log(user_id)
     try {
         const res = await axios.post(`${dbUrl}/clientes`, {rfc, nombre, user_id, colaborador_id}, {headers: {Authorization: `Bearer ${token}`}})
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const editarCliente = createAsyncThunk('cliente/editarCliente', async ({id, rfc, nombre, user_id, colaborador_id}: Cliente) => {
+    const token = sessionStorage.getItem('token')
+    try {
+        const res = await axios.put(`${dbUrl}/clientes/${id}`, {rfc, nombre, user_id, colaborador_id}, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error) {
         console.log(error)

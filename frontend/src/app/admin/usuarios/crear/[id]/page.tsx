@@ -2,16 +2,12 @@
 import Titles from '@/app/components/ui/Titles'
 import useAlertCorrect from '@/hooks/useAlertCorrect'
 import useAlertError from '@/hooks/useAlertError'
-import useIsLoggedIn from '@/hooks/useIsLoggedIn'
-import { getClienteByName } from '@/lib/features/clienteSlice'
-import { getColaboradorByName } from '@/lib/features/colaboradorSlice'
-import { crearUsuario, editUser, getUser } from '@/lib/features/userSlice'
+import { editUser, getUser } from '@/lib/features/userSlice'
 import { AppDispatch } from '@/lib/store'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
-import React, { use, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import Swal from 'sweetalert2'
 
 const CrearUsuario = () => {
 
@@ -24,50 +20,25 @@ const CrearUsuario = () => {
   const [password, setPassword] = useState('')
   const [verificado, setVerificado] = useState(false)
 
-  // const getClienteId = async () => {
-  //   const cliente = await dispatch(getClienteByName(nombre))
-  //   if (cliente.payload) {
-  //     setClienteId(cliente.payload.id)
-  //   }else {
-  //     const colaborador = await dispatch(getColaboradorByName(nombre))
-  //     if (colaborador.payload) {
-  //       setClienteId(colaborador.payload.id)
-  //     }
-  //   }
-  // }
-
   const handleSubmit = async (e: any) => {
     e.preventDefault()
-    if(params !== 0) {
-      const id = params
-      // const cliente = await getClienteId()
-      const user = await dispatch(editUser({ id, nombre, apellido, email, password, verificado }))
-      
-      if (user.payload) {
-        useAlertCorrect("Usuario editado correctamente")
-        setTimeout(() => {
-          setNombre('')
-          setApellido('')
-          setEmail('')
-          setPassword('')
-          window.location.href = '/admin/usuarios'
-        }, 1600)
-      }
-    } else {
-      const user = await dispatch(crearUsuario({ id: null, nombre, apellido, email, password, verificado }))
-      if (user.payload.code === 201) {
-        useAlertCorrect("Usuario creado correctamente")
-        setTimeout(() => {
-          setNombre('')
-          setApellido('')
-          setEmail('')
-          setPassword('')
-          window.location.href = '/admin/usuarios'
-        }, 1600)
-      }else if (user.payload.code === 400) {
-        useAlertError("El email ya existe")
-      }
+    const id = params
+    const user = await dispatch(editUser({ id, nombre, apellido, email, password, verificado }))
+    console.log (user.payload)
+    if (user.payload) {
+      useAlertCorrect("Usuario editado correctamente")
+      setTimeout(() => {
+        setNombre('')
+        setApellido('')
+        setEmail('')
+        setPassword('')
+      }, 1600)
+    }else {
+      useAlertError(user.payload.message)
     }
+    setTimeout(() => {
+      window.location.href = '/admin/usuarios'
+    }, 2000)
   }
 
   const encontrarUsuario = async () => {
