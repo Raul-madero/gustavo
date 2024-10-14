@@ -7,10 +7,6 @@ class ColaboradorSchema(Schema):
     user_id = fields.Int(required=True, ForeignKey='user.id')
     user = fields.Nested('UserSchema', many=False)
 
-class PutColaboradorSchema(Schema):
-    user_id = fields.Int()
-    is_admin = fields.Bool()
-
 # esquema de cliente
 class ClientSchema(Schema):
     id = fields.Int(dump_only=True)

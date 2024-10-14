@@ -5,7 +5,7 @@ from flask_jwt_extended import jwt_required
 
 from db import db
 from models import ColaboradoresModel
-from schemas import ColaboradorSchema, PutColaboradorSchema
+from schemas import ColaboradorSchema
 
 blp = Blueprint('colaboradores', __name__, description='Colaboradores')
 
@@ -33,7 +33,7 @@ class Colaboradores(MethodView):
             db.session.rollback()
             abort(400, str(e))
 
-@blp.route('/colaboradores/<int:id>', methods=["GET", "PUT", "DELETE"])
+@blp.route('/colaboradores/<int:id>', methods=["GET", "DELETE"])
 class Colaborador(MethodView):
     # @jwt_required()
     @blp.response(200, ColaboradorSchema)
@@ -41,22 +41,6 @@ class Colaborador(MethodView):
         colaborador = ColaboradoresModel.query.get(id)
         return colaborador, 200
     
-    # @jwt_required()
-    @blp.arguments(PutColaboradorSchema)
-    @blp.response(200, PutColaboradorSchema)
-    def put(self, colaborador_data, id):
-        colaborador = ColaboradoresModel.query.get(id)
-        if colaborador:
-            colaborador.user_id = colaborador_data['user_id']
-        else:
-            colaborador = ColaboradoresModel(id=colaborador.id, **colaborador_data)
-        try:
-            db.session.add(colaborador)
-            db.session.commit()
-            return colaborador, 200
-        except SQLAlchemyError as e:
-            abort(400, str(e))
-
     # @jwt_required(fresh=True)
     @blp.response(204)
     def delete(self, id):

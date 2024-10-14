@@ -48,7 +48,7 @@ const TablaColaboradores = () => {
     }
 
     const handleEditar = (id: number) => {
-        console.log(id)
+        window.location.href = `/admin/colaboradores/crear/${id}`
     }
 
     return (
@@ -68,7 +68,6 @@ const TablaColaboradores = () => {
                     <td className="px-6 py-3 text-center">{colab.user.nombre}</td>
                     <td className="px-6 py-3 text-center">{colab.user.apellido}</td>
                     <td className="px-6 py-3 flex gap-2 items-center justify-center">
-                        <button onClick={() => handleEditar(colab.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2 max-w-1/2">Editar</button>
                         <button onClick={() => handleEliminar(colab.id, colab.user.nombre, colab.user.apellido)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full max-w-1/2">Eliminar</button>
                     </td>
                     </tr>

@@ -10,6 +10,7 @@ interface Cliente {
 }
 
 const dbUrl = 'http://localhost:5000'
+
 export const getClientes = createAsyncThunk('cliente/getClientes', async () => {
     try {
         const res = await axios.get(`${dbUrl}/clientes`)
@@ -32,6 +33,16 @@ export const crearCliente = createAsyncThunk('cliente/crearCliente', async ({rfc
     const token = sessionStorage.getItem('token')
     try {
         const res = await axios.post(`${dbUrl}/clientes`, {rfc, nombre, user_id, colaborador_id}, {headers: {Authorization: `Bearer ${token}`}})
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+export const eliminarCliente = createAsyncThunk('cliente/eliminarCliente', async (id: number) => {
+    const token = sessionStorage.getItem('token')
+    try {
+        const res = await axios.delete(`${dbUrl}/clientes/${id}`, {headers: {Authorization: `Bearer ${token}`}})
         return res.data
     } catch (error) {
         console.log(error)
@@ -80,6 +91,19 @@ export const clienteSlice = createSlice({
                 state.loading = false
                 state.error = action.error.message || "An error occurred. Please try again."
             })
+            .addCase(eliminarCliente.fulfilled, (state, action) => {
+                state.cliente = action.payload
+                state.loading = false
+                state.error = "null"
+            })
+            .addCase(eliminarCliente.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(eliminarCliente.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message || "An error occurred. Please try again."
+            })
+            
     }
 })
 

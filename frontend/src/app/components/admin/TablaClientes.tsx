@@ -1,10 +1,11 @@
 'use client'
-import { getClientes } from '@/lib/features/clienteSlice'
+import { eliminarCliente, getClientes } from '@/lib/features/clienteSlice'
 import { AppDispatch } from '@/lib/store'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Titles from '../ui/Titles'
 import Link from 'next/link'
+import Swal from 'sweetalert2'
 
 const TablaClientes = () => {
     const dispatch = useDispatch<AppDispatch>()
@@ -21,8 +22,32 @@ const TablaClientes = () => {
         })
     }, [])
 
-    const handleEliminar = (id: number) => {
-        console.log(id)
+    const confirmEliminar = async (id: number) => {
+      console.log(id)
+      dispatch(eliminarCliente(id)).then(() => {
+        window.location.reload()
+      })
+    }
+
+    const handleEliminar = (cliente: any) => {
+      Swal.fire({
+        title: `¿Estás seguro de eliminar a ${cliente.nombre}?`,
+        text: "No podrás revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "¡Sí, eliminarlo!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          confirmEliminar(cliente.id)
+          Swal.fire({
+            title: "¡Eliminado!",
+            text: "El usuario ha sido eliminado.",
+            icon: "success"
+          });
+        }
+      });
     }
 
     const handleEditar = (id: number) => {
@@ -46,11 +71,11 @@ const TablaClientes = () => {
           {clients && clients.map((cliente: any) => (
             <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={cliente.id}>
               <td className="px-6 py-3">{cliente.rfc}</td>
-              <td className="px-6 py-3 font-extrabold">{cliente.nombre}</td>
-              <td className='px6 py-3'>Colaborador</td>
+              <td className="px-6 py-3 font-extrabold text-center">{cliente.nombre}</td>
+              <td className='px6 py-3 text-center'>{cliente.colaborador.user.nombre + " " + cliente.colaborador.user.apellido}</td>
               <td className="px-6 py-3 flex gap-2 justify-center items-center">
                 <button onClick={() => handleEditar(cliente.id)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mr-2 max-w-1/2">Editar</button>
-                <button onClick={() => handleEliminar(cliente.id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full max-w-1/2">Eliminar</button>
+                <button onClick={() => handleEliminar(cliente)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full max-w-1/2">Eliminar</button>
               </td>
             </tr>
           ))}
