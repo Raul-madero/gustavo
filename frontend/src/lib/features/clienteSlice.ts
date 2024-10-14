@@ -20,6 +20,15 @@ export const getClientes = createAsyncThunk('cliente/getClientes', async () => {
     }
 })
 
+export const getCliente = createAsyncThunk('cliente/getCliente', async (id: number) => {
+    try {
+        const res = await axios.get(`${dbUrl}/clientes/${id}`)
+        return res.data
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 export const getClienteByName = createAsyncThunk('cliente/getClienteByName', async (nombre: string) => {
     try {
         const res = await axios.get(`${dbUrl}/clientes/${nombre}`)
@@ -100,6 +109,18 @@ export const clienteSlice = createSlice({
                 state.loading = true
             })
             .addCase(eliminarCliente.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message || "An error occurred. Please try again."
+            })
+            .addCase(getCliente.fulfilled, (state, action) => {
+                state.cliente = action.payload
+                state.loading = false
+                state.error = ""
+            })
+            .addCase(getCliente.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(getCliente.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.error.message || "An error occurred. Please try again."
             })

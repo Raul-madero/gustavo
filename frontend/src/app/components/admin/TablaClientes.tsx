@@ -51,7 +51,7 @@ const TablaClientes = () => {
     }
 
     const handleEditar = (id: number) => {
-        console.log(id)
+        window.location.href = `/admin/clientes/crear/${id}`
     }
     
   return (

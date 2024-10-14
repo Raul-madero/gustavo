@@ -1,18 +1,16 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { crearCliente } from '@/lib/features/clienteSlice'
+import { useDispatch } from 'react-redux'
+import { crearCliente, getCliente } from '@/lib/features/clienteSlice'
 import { fetchColaboradores } from '@/lib/features/colaboradorSlice'
-import BotonAcento from '@/app/components/ui/BottonAcento'
-import axios from 'axios'
 import Titles from '@/app/components/ui/Titles'
 import { AppDispatch } from '@/lib/store'
 import Swal from 'sweetalert2'
-import useIsLoggedIn from '@/hooks/useIsLoggedIn'
-import { redirect, useParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import ClienteNombre from '@/app/components/admin/ClienteNombre'
 import useAlertCorrect from '@/hooks/useAlertCorrect'
 import { obtenerUsuarios } from '@/lib/features/userSlice'
+import { parse } from 'path'
 
 // interface State {
 //     cliente: {cliente: {
@@ -63,7 +61,18 @@ const CrearCliente = () => {
       setUsers(data.payload)
     }
 
+    const getClienteById = async (id: number) => {
+        const cliente = await dispatch(getCliente(id))
+        setRfc(cliente.payload.rfc)
+        setNombre(cliente.payload.nombre)
+        setColaborador(cliente.payload.colaborador_id)
+        setUser_id(cliente.payload.user_id)
+    }
+
     useEffect(() => {
+      if(params.id) {
+        getClienteById(parseInt(params.id))
+      }
         getColaboradores()
         getUsers()
     }, [])
@@ -87,7 +96,7 @@ const CrearCliente = () => {
   return (
     <div className='my-10'>
       <ClienteNombre />
-      <Titles title="Crear cliente" />
+      <Titles title={params.id ? "Editar Cliente" : "Crear Cliente"} />
       <form onSubmit={e => handleSubmit(e)} className='w-3/4 mx-auto my-10'>
         <div className="my-8">
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="rfc">RFC:</label>
