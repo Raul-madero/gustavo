@@ -131,6 +131,42 @@ export const userSlice = createSlice({
                 state.loading = false
                 state.error = action.error.message || "An error occurred. Please try again."
             })
+            .addCase(getUser.fulfilled, (state, action) => {
+                state.usuario = action.payload
+                state.loading = false
+                state.error = ""
+            })
+            .addCase(getUser.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(getUser.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message || "An error occurred. Please try again."
+            })
+            .addCase(getUserByEmail.fulfilled, (state, action) => {
+                state.usuario = action.payload
+                state.loading = false
+                state.error = ""
+            })
+            .addCase(getUserByEmail.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(getUserByEmail.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message || "An error occurred. Please try again."
+            })
+            .addCase(editUser.fulfilled, (state, action) => {
+                state.usuario = action.payload
+                state.loading = false
+                state.error = ""
+            })
+            .addCase(editUser.pending, (state, action) => {
+                state.loading = true
+            })
+            .addCase(editUser.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message || "An error occurred. Please try again."
+            })
     }
 })
 

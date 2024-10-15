@@ -38,7 +38,8 @@ const RegisterForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const user = await dispatch(crearUsuario(newUser))
-        if (user.payload.code === 201) {
+        console.log(user)
+        if (user.meta.requestStatus === "fulfilled") {
             useAlertCorrect('Usuario creado correctamente')
         } else {
             useAlertError(user.payload.message)

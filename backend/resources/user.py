@@ -47,7 +47,7 @@ class UsersList(MethodView):
         try:
             db.session.add(user)
             db.session.commit()
-            send_simple_message(user.email, "Registro exitoso", "Bienvenido a nuestra plataforma")
+            # send_simple_message(user.email, "Registro exitoso", "Bienvenido a nuestra plataforma")
             return user, 201
         except SQLAlchemyError:
             db.session.rollback()

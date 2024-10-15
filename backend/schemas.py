@@ -15,6 +15,7 @@ class ClientSchema(Schema):
     colaborador_id = fields.Int()
     user_id = fields.Int(required=True)
     colaborador = fields.Nested(ColaboradorSchema, many=False)
+    user = fields.Nested('UserSchema', many=False)
 
 class PutClientSchema(Schema):
     rfc = fields.Str()
@@ -41,4 +42,4 @@ class UserSchema(Schema):
     password = fields.Str(required=False, load_only=True)
     verificado = fields.Bool()
     # colaborador = fields.Nested(ColaboradorSchema, many=False)
-    clientes = fields.Nested(ClientSchema, many=True)
+    # clientes = fields.Nested(ClientSchema, many=True)
