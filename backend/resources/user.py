@@ -28,6 +28,8 @@ class UsersList(MethodView):
     # @jwt_required()
     @blp.response(200, UserSchema(many=True))
     def get(self):
+        page = 1
+        per_page = 10
         users = UsersModel.query.all()
         return users, 200
     

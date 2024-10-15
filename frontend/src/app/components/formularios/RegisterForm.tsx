@@ -3,7 +3,6 @@ import useAlertCorrect from "@/hooks/useAlertCorrect";
 import useAlertError from "@/hooks/useAlertError";
 import { crearUsuario } from "@/lib/features/userSlice";
 import { AppDispatch } from "@/lib/store";
-import Link from "next/link";
 import { redirect, useParams } from "next/navigation";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
