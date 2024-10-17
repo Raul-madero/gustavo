@@ -65,7 +65,7 @@ class Users(MethodView):
     
     # @jwt_required()
     @blp.arguments(PutUserSchema)
-    @blp.response(200, UserSchema)
+    @blp.response(200, PutUserSchema)
     def put(self, user_data, id):
         user = UsersModel.query.get_or_404(id)
         user.nombre = user_data['nombre']

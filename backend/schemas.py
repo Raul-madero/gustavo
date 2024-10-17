@@ -23,10 +23,6 @@ class PutClientSchema(Schema):
     colaborador_id = fields.Int()
     user_id = fields.Int()
 
-class PutUserSchema(Schema):
-    email = fields.Str()
-    password = fields.Str()
-
 # esquema de login
 class LoginSchema(Schema):
     email = fields.Str(required=True)
@@ -43,3 +39,10 @@ class UserSchema(Schema):
     verificado = fields.Bool()
     # colaborador = fields.Nested(ColaboradorSchema, many=False)
     # clientes = fields.Nested(ClientSchema, many=True)
+
+class PutUserSchema(Schema):
+    nombre = fields.Str()
+    apellido = fields.Str()
+    email = fields.Str()
+    password = fields.Str(load_only=True)
+    verificado = fields.Bool()

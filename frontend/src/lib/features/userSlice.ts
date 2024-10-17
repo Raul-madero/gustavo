@@ -46,11 +46,9 @@ export const eliminarUsuario = createAsyncThunk('user/eliminarUsuario', async (i
 
 export const getUser = createAsyncThunk('user/getUser', async (id: number, {rejectWithValue}) => {
     const token = localStorage.getItem('token')
-    console.log(id)
     try {
         const res = await axios.get(`${apiUrl}usuarios/${id}`)
         // , {headers: {Authorization: `Bearer ${token}`}}
-        console.log(res.data)
         return res.data
     } catch (error: any) {
         return rejectWithValue(error.response.data)

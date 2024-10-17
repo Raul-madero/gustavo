@@ -9,6 +9,7 @@ import { useParams } from 'next/navigation'
 import ClienteNombre from '@/app/components/admin/ClienteNombre'
 import useAlertCorrect from '@/hooks/useAlertCorrect'
 import { obtenerUsuarios } from '@/lib/features/userSlice'
+import Link from 'next/link'
 
 // interface State {
 //     cliente: {cliente: {
@@ -77,7 +78,7 @@ const CrearCliente = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        useAlertCorrect(params ? 'Cliente editado correctamente' : 'Cliente creado correctamente')
+        useAlertCorrect(params.id ? 'Cliente editado correctamente' : 'Cliente creado correctamente')
         if(params.id) {
           dispatch(editarCliente(nuevoCliente)).then(() => {
             window.location.href = '/admin/clientes'
@@ -131,7 +132,7 @@ const CrearCliente = () => {
         </div>
         <button type='submit' className="text-white bg-gradient-to-br dark:from-slate-700 dark:to-slate-700 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:bg-slate-700 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">{params.id ? "Editar" : "Crear"}</button>
       </form>
-
+      <Link href="/admin/clientes" type='button' className='block w-10/12 text-center mx-auto focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 my-10 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800'>Volver</Link>
     </div>
   )
 }
