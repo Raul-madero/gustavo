@@ -28,8 +28,6 @@ class UsersList(MethodView):
     # @jwt_required()
     @blp.response(200, UserSchema(many=True))
     def get(self):
-        page = 1
-        per_page = 10
         users = UsersModel.query.all()
         return users, 200
     
@@ -42,7 +40,8 @@ class UsersList(MethodView):
             apellido = user_data['apellido'],
             email = user_data['email'],
             password = pbkdf2_sha256.hash(user_data['password']),
-            verificado = user_data['verificado']
+            verificado = user_data['verificado'],
+            # client_id = user_data['client_id']
         )
         if UsersModel.query.filter_by(email=user.email).first():
             abort(400, message="Email ya registrado.")

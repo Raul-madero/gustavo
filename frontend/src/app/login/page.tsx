@@ -15,8 +15,8 @@ const Login = () => {
     }, []);
     
     return (
-        <div className="max-w-md mx-auto flex flex-col items-center justify-center mt-10">
-            <Image src={darkMode ? logo : logoOscuro} alt="Login" width={400} height={200} />
+        <div className="max-w-md mx-auto flex flex-col items-center justify-center h-screen">
+            <Image src={darkMode ? logo : logoOscuro} alt="Login" className="w-96 h-48"/>
             <LoginForm />
         </div>
     );

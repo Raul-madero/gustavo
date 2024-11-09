@@ -35,7 +35,7 @@ const Header = () => {
     }, [])
     
     return (
-        <header className="flex items-center justify-between h-20 p-5 bg-gradient-to-r from-blue-800 via-sky-600 to-teal-400 dark:bg-gradient-to-r dark:from-slate-800 dark:via-slate-800 dark:to-gray-900 sticky top-0 z-50">
+        <header className="w-full flex items-center justify-between h-20 p-5 bg-gradient-to-r from-blue-800 via-sky-600 to-teal-400 dark:bg-gradient-to-r dark:from-slate-800 dark:via-slate-800 dark:to-gray-900 sticky top-0 z-50">
             <Link onClick={handleClick} href={"/"} >
                 <Image src={logo} alt="Gustavo Ramirez Contador" width={200} height={100} />
             </Link>
@@ -48,25 +48,25 @@ const Header = () => {
                   </svg>
                 </button>
                 <div className={`${!show ? "hidden" : "absolute top-20 right-10 z-50 w-1/4"} w-full md:block md:w-auto`} id="navbar-default">
-                  <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+                  <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 w-3/4 bg-slate-500 md:bg-transparent mx-auto">
                     <li>
-                      <Link onClick={handleClick} href="/" className="block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Inicio</Link>
+                      <Link onClick={handleClick} href="/" className="block py-2 px-3 text-white rounded md:bg-transparent md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Inicio</Link>
                     </li>
                     <li>
-                      <Link onClick={handleClick} href="/nosotros" className="block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Nosotros</Link>
+                      <Link onClick={handleClick} href="/nosotros" className="block py-2 px-3 text-white rounded md:bg-transparent md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Nosotros</Link>
                     </li>
                     {/* <li>
                       <Link href="/servicios" className="block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Servicios</Link>
                     </li> */}
                     <li>
-                      <Link onClick={handleClick} href="/contacto" className="block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Contacto</Link>
+                      <Link onClick={handleClick} href="/contacto" className="block py-2 px-3 text-white rounded md:bg-transparent md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Contacto</Link>
                     </li>
                     <li>
-                      <Link onClick={autenticado ? handleLogOut : handleClick} href={autenticado ? "/" : "/login"} className="block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">{autenticado ? "Cerrar Sesión" : "Iniciar Sesión"}</Link>
+                      <Link onClick={autenticado ? handleLogOut : handleClick} href={autenticado ? "/" : "/login"} className="block py-2 px-3 text-white rounded md:bg-transparent md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">{autenticado ? "Cerrar Sesión" : "Iniciar Sesión"}</Link>
                     </li>
                     {autenticado && (
                       <li>
-                        <Link onClick={handleClick} href="/admin" className="block py-2 px-3 text-white rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Admin</Link>
+                        <Link onClick={handleClick} href="/admin" className="block py-2 px-3 text-white rounded md:bg-transparent md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Admin</Link>
                       </li>
                     )}
                   </ul>

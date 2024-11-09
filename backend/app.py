@@ -5,6 +5,7 @@ from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from flask_cors import CORS
 
+
 from db import db
 import models
 import os
@@ -18,11 +19,14 @@ db_port = os.getenv('DB_PORT')
 db_name = os.getenv('DB_NAME')
 db_url = f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}' or 'sqlite:///gustavo_ramirez.db'
 
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = { 'pdf', 'xlxs', '.docxs'}
 
 from blocklist import BLOCKLIST
 from resources.clients import blp as clients_blueprint
 from resources.colaborador import blp as colaboradores_blueprints
 from resources.user import blp as users_blueprint
+from resources.documents import blp as documents_blueprint
 
 def create_app():
     app = Flask(__name__)
@@ -37,9 +41,10 @@ def create_app():
     app.config["OPENAPI_SWAGGER_UI_URL"] = "/docs/swagger-ui"
     app.config["SQLALCHEMY_DATABASE_URI"] =  'sqlite:///gustavo_ramirez.db' or db_url
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
     db.init_app(app)
 
-    migrate = Migrate(app, db)
+    migrate = Migrate(app, db, render_as_batch=True)
 
     api = Api(app)
 
@@ -75,5 +80,6 @@ def create_app():
     api.register_blueprint(clients_blueprint)
     api.register_blueprint(colaboradores_blueprints)
     api.register_blueprint(users_blueprint)
+    api.register_blueprint(documents_blueprint)
 
     return app

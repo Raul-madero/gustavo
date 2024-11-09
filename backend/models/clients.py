@@ -10,3 +10,4 @@ class ClientsModel(db.Model):
     colaborador = db.relationship('ColaboradoresModel', back_populates='clientes')
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     user = db.relationship('UsersModel', back_populates='clientes')
+    documentos = db.relationship('DocumentsModel', back_populates='client')

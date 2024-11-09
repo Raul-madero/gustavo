@@ -4,7 +4,7 @@ import Titles from "../ui/Titles";
 
 const ContactoForm = () => {
     return (
-        <div className="w-3/4 mx-auto my-10 flex flex-col justify-center items-center">
+        <div className="w-3/4 mx-auto flex flex-col justify-center items-center h-screen">
             <Titles title="Contacto" />
             <form className="flex flex-col gap-4 my-10 w-full">
                 <InputGroup name="Nombre" type="text"/>

@@ -70,7 +70,7 @@ const LoginForm = () => {
                     placeholder="Tu contraseña"
                     required
                 />
-                <button type="submit" className="text-white bg-gradient-to-br dark:from-slate-700 dark:to-slate-700 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:bg-slate-700 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Iniciar sesión</button>
+                <button type="submit" className="text-white bg-gradient-to-br dark:from-slate-700 dark:to-slate-700 from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:bg-slate-700 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 my-8">Iniciar sesión</button>
             </form>
             <div className="flex gap-10 items-center justify-between">
                 <BotonSimple navegar="/register" texto="¿No tienes cuenta? Registrate" />
